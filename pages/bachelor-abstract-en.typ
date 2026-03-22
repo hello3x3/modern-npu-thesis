@@ -24,8 +24,8 @@
     title-en: "NPU Thesis Template for Typst",
     author-en: "Zhang San",
     department-en: "XX School",
-    major-en: "XX Major",
-    supervisor-en: "Professor Li Si",
+    major-en: "XX",
+    supervisor-en: "Li Si",
   ) + info
 
   // 2.  对参数进行处理
