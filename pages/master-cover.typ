@@ -132,7 +132,7 @@
     } else {
       "../template/images/学硕论文封面.jpg"
     }
-    bg = image(cover-image-path, width: 100%, height: 100%, format: "png")
+    bg = image(cover-image-path, width: 100%, height: 100%)
   }
   set page(background: bg)
 
@@ -334,7 +334,7 @@
 
   text(weight: "bold")[Under the Supervision of Professor]
   v(0pt)
-  text(anonymous-text("supervisor-en", if type(info.supervisor-en) == str { info.supervisor-en.split(" ").slice(1).join(" ") } else { info.supervisor-en }))
+  text(anonymous-text("supervisor-en", { info.supervisor-en }))
 
   v(4 * 14pt * 1.4) // 约 78pt
 

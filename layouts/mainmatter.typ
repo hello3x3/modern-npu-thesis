@@ -99,6 +99,8 @@
   set figure.caption(separator: separator)
   show figure.caption: caption-style
   show figure.caption: set text(font: fonts.宋体, size: 字号.五号)
+  // 表格内容使用五号字体
+  show table: set text(font: fonts.宋体, size: 字号.五号)
   // 4.6 优化列表显示
   //     术语列表 terms 不应该缩进
   show terms: set par(first-line-indent: 0pt)

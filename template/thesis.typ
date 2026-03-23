@@ -147,32 +147,75 @@
 引用@tbl:timing-tlt，以及@fig:test。引用图表时，表格和图片分别需要加上 `tbl:`和`fig:` 前缀才能正常显示编号。
 
 #figure(
-  box(width: 100%)[
-    #table(
-      columns: (1fr, 1fr, 1fr, 1fr),
-      stroke: none,
-      inset: 0.3em,
-      align: center + horizon,
+  table(
+    columns: (1fr, 1fr, 1fr, 1fr),
+    stroke: none,
+    inset: 0.3em,
+    align: center + horizon,
 
-      table.hline(y: 0, stroke: 0.5pt),
+    table.hline(y: 0, stroke: 0.5pt),
 
-      table.header([t], [1], [2], [3]),
+    table.header([t], [1], [2], [3]),
 
-      table.hline(y: 1, stroke: 0.5pt),
+    table.hline(y: 1, stroke: 0.5pt),
 
-      [y], [0.3s], [0.4s], [0.8s],
+    [y], [0.3s], [0.4s], [0.8s],
 
-      table.hline(y: 2, stroke: 0.5pt),
-    )
-  ],
+    table.hline(y: 2, stroke: 0.5pt),
+  ),
   caption: [三线表],
 ) <timing-tlt>
 
 #figure(
-  rect(width: 100pt, height: 50pt, fill: blue.lighten(80%), [测试图片]),
+  rect(width: 200pt, height: 100pt, fill: blue.lighten(80%), [测试图片]),
   caption: [图片测试],
 ) <test>
 
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    align(center)[
+      #image("images/博士论文封面.jpg", width: 60%)
+      (a) 第一个子图说明
+    ],
+    align(center)[
+      #image("images/博士论文封底.jpg", width: 60%)
+      (b) 第二个子图说明
+    ],
+  ),
+  caption: [总图标题],
+) <fig-main>
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    rows: (200pt, 200pt),
+    gutter: 1em,
+    align(center)[
+      #image("images/专硕论文封面.jpg", width: 50%)
+      
+      (a) 第一个子图说明
+    ],
+    align(center)[
+      #image("images/专硕论文封底.jpg", width: 50%)
+      
+      (b) 第二个子图说明
+    ],
+    
+    align(center)[
+      #image("images/学硕论文封面.jpg", width: 50%)
+      
+      (c) 第三个子图说明
+    ],
+    align(center)[
+      #image("images/学硕论文封底.jpg", width: 50%)
+      
+      (d) 第四个子图说明
+    ],
+  ),
+  caption: [总图标题],
+) <fig-main>
 
 == 数学公式
 
