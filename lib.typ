@@ -7,6 +7,8 @@
 #import "layouts/preface.typ": preface
 #import "layouts/mainmatter.typ": mainmatter
 #import "layouts/appendix.typ": appendix
+#import "utils/header.typ": add-blank-even-page
+#import "utils/header.typ": break-to-odd-page
 #import "pages/fonts-display-page.typ": fonts-display-page
 #import "pages/bachelor-cover.typ": bachelor-cover
 #import "pages/master-cover.typ": master-cover
@@ -292,6 +294,8 @@
       acknowledgement(
         anonymous: anonymous,
         twoside: twoside,
+        doctype: doctype,
+        fonts: fonts + args.named().at("fonts", default: (:)),
         ..args,
       )
     },
@@ -300,6 +304,14 @@
       academic-achievements(
         anonymous: anonymous,
         twoside: twoside,
+        fonts: fonts + args.named().at("fonts", default: (:)),
+        ..args,
+      )
+    },
+    // 空白偶数页（双面打印用）
+    add-blank-even-page: (..args) => {
+      add-blank-even-page(
+        doctype: doctype,
         fonts: fonts + args.named().at("fonts", default: (:)),
         ..args,
       )

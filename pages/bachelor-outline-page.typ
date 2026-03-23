@@ -1,6 +1,6 @@
 #import "../utils/invisible-heading.typ": invisible-heading
 #import "../utils/style.typ": 字号, 字体
-#import "../utils/header.typ": header-render, add-blank-even-page
+#import "../utils/header.typ": header-render
 
 // 目录生成页面
 #let bachelor-outline-page(
@@ -104,60 +104,60 @@
   // 默认显示的字体
   set text(font: reference-font, size: reference-size)
 
-  {
-    set align(center)
-    text(..title-text-args, title)
-    // 标记一个不可见的标题用于目录生成
-    invisible-heading(level: 1, outlined: outlined, title)
-  }
-
-  v(title-vspace)
-
-  // 目录样式
-  set par(leading: leading)
-  set outline(indent: level => indent.slice(0, calc.min(level + 1, indent.len())).sum())
-  show outline.entry: entry => {
-    // 研究生使用固定行间距，不额外添加 above/below
-    let entry-content = link(
-      entry.element.location(),
-      entry.indented(
-        none,
-        {
-          text(
-            font: font.at(entry.level - 1, default: font.last()),
-            size: size.at(entry.level - 1, default: size.last()),
-            {
-              if entry.prefix() not in (none, []) {
-                entry.prefix()
-                h(gap)
-              }
-              entry.body()
-            },
-          )
-          box(width: 1fr, inset: (x: .25em), fill.at(entry.level - 1, default: fill.last()))
-          entry.page()
-        },
-        gap: 0pt,
-      ),
-    )
-    if is-graduate {
-      // 研究生：固定行间距，每条目占一行
-      entry-content
-    } else {
-      // 本科生：使用 above/below 控制间距
-      block(
-        above: above.at(entry.level - 1, default: above.last()),
-        below: below.at(entry.level - 1, default: below.last()),
-        entry-content,
-      )
+  [
+    #{
+      set align(center)
+      text(..title-text-args, title)
+      // 标记一个不可见的标题用于目录生成
+      invisible-heading(level: 1, outlined: outlined, title)
     }
-  }
 
-  // 显示目录
-  outline(title: none, depth: depth)
+    #v(title-vspace)
 
-  // 双面打印时，如果研究生目录结束在奇数页，添加带页眉的空白偶数页
-  if is-graduate {
-    add-blank-even-page(doctype: doctype, fonts: fonts)
-  }
+    // 目录样式
+    #set par(leading: leading)
+    #set outline(indent: level => indent.slice(0, calc.min(level + 1, indent.len())).sum())
+    #show outline.entry: entry => {
+      // 研究生使用固定行间距，不额外添加 above/below
+      let entry-content = link(
+        entry.element.location(),
+        entry.indented(
+          none,
+          {
+            text(
+              font: font.at(entry.level - 1, default: font.last()),
+              size: size.at(entry.level - 1, default: size.last()),
+              {
+                if entry.prefix() not in (none, []) {
+                  entry.prefix()
+                  h(gap)
+                }
+                entry.body()
+              },
+            )
+            box(width: 1fr, inset: (x: .25em), fill.at(entry.level - 1, default: fill.last()))
+            entry.page()
+          },
+          gap: 0pt,
+        ),
+      )
+      if is-graduate {
+        // 研究生：固定行间距，每条目占一行
+        entry-content
+      } else {
+        // 本科生：使用 above/below 控制间距
+        block(
+          above: above.at(entry.level - 1, default: above.last()),
+          below: below.at(entry.level - 1, default: below.last()),
+          entry-content,
+        )
+      }
+    }
+
+    // 显示目录
+    #outline(title: none, depth: depth)
+  ]
+
+  // 调试信息
+  // context { text("目录结束，当前页码: " + str(here().page()) + ", is-graduate: " + str(is-graduate) + ", twoside: " + str(twoside)) }
 }

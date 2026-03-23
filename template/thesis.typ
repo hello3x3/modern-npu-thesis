@@ -23,6 +23,7 @@
   notation,
   acknowledgement,
   academic-achievements,
+  add-blank-even-page,
 ) = documentclass(
   doctype: "master", // "bachelor" | "master" | "doctor" | "postdoc", 文档类型，默认为本科生 bachelor
   // degree: "academic",  // "academic" | "professional", 学位类型，默认为学术型 academic
@@ -79,8 +80,8 @@
 // 封面页
 #cover()
 
-// 声明页
-#decl-page()
+// // 声明页
+// #decl-page()
 
 
 // 前言
@@ -104,7 +105,10 @@
 // 目录
 #outline-page()
 
-// 插图目录
+// 调试：显示目录结束后的页码
+// #context { text("目录结束页码: " + str(here().page())) }
+
+// 正文
 // #list-of-figures()
 
 // 表格目录
@@ -119,7 +123,7 @@
 //   / DMRG: 密度矩阵重正化群 (Density-Matrix Reformation-Group)
 // ]
 
-= 第一章 绪论
+= 绪论
 
 == 1.1 研究背景
 
@@ -230,7 +234,7 @@ $ F_n = floor(1 / sqrt(5) phi.alt^n) $
 ) <code>
 
 
-= 第二章 研究方法
+= 研究方法
 
 == 2.1 方法概述
 
@@ -241,13 +245,17 @@ $ F_n = floor(1 / sqrt(5) phi.alt^n) $
 实验设计内容。
 
 
-// 手动分页
-#if twoside {
-  pagebreak() + " "
-}
+// 正文结束，添加空白偶数页
 
 // 参考文献
-#bilingual-bibliography(full: true)
+#pagebreak()
+#v(1fr)
+#pagebreak()
+#heading(level: 1, numbering: none, outlined: true, [参考文献]) <no-auto-pagebreak>
+#bilingual-bibliography(full: true, title: none)
+
+#pagebreak()
+#v(1fr)
 
 // 致谢
 #acknowledgement[
@@ -265,14 +273,13 @@ $ F_n = floor(1 / sqrt(5) phi.alt^n) $
 //   [1] 项目名称，项目编号，起止时间。
 // ]
 
-// 手动分页
-#if twoside {
-  pagebreak() + " "
-}
+// 添加空白偶数页
+#pagebreak()
+#v(1fr)
 
 
 // 附录
-#show: appendix
+#appendix[
 
 = 附录
 
@@ -286,3 +293,7 @@ $ F_n = floor(1 / sqrt(5) phi.alt^n) $
   rect(width: 100pt, height: 50pt, fill: green.lighten(80%), [测试图片]),
   caption: [图片测试],
 ) <appendix-img>
+]
+
+#pagebreak()
+#v(1fr)

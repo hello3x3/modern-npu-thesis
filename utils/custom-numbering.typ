@@ -6,7 +6,11 @@
   }
   if first-level != auto and args.pos().len() == 1 {
       if first-level != "" {
-          numbering(first-level, ..args)
+          if type(first-level) == function {
+              first-level(..args.pos())
+          } else {
+              numbering(first-level, ..args)
+          }
       }
       return
   }

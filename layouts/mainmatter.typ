@@ -1,7 +1,7 @@
 #import "@preview/i-figured:0.2.4"
 #import "../utils/style.typ": 字号, 字体
 #import "../utils/custom-numbering.typ": custom-numbering
-#import "../utils/custom-heading.typ": heading-display, active-heading, current-heading
+#import "../utils/custom-heading.typ": heading-display, active-heading
 #import "../utils/unpairs.typ": unpairs
 #import "../utils/header.typ": header-render, graduate-header-title
 
@@ -15,7 +15,11 @@
   spacing: 1.5 * 15.6pt - 0.7em,
   justify: true,
   first-line-indent: (amount: 2em, all: true),
-  numbering: custom-numbering.with(first-level: "第一章 ", depth: 4, "1.1 "),
+  numbering: custom-numbering.with(
+    first-level: n => [#("第" + str(n) + "章 ")],
+    depth: 4,
+    "1.1 ",
+  ),
   // 正文字体与字号参数
   text-args: auto,
   // 标题字体与字号
@@ -27,10 +31,7 @@
   heading-pagebreak: (true, false, false),
   heading-align: (center, auto, auto),
   // 页眉
-  header-render: auto,
-  header-vspace: 0em,
   display-header: false,
-  skip-on-first-level: true,
   stroke-width: 0.5pt,
   reset-footnote: true,
   // caption 的 separator
@@ -45,10 +46,7 @@
   ..args,
   it,
 ) = {
-  // 0.  标志前言结束
-  set page(numbering: "1")
-
-  // 1.  默认参数
+  // 1.  默认参数（提前初始化 fonts）
   fonts = 字体 + fonts
   if text-args == auto {
     text-args = (font: fonts.宋体, size: 字号.小四)
@@ -57,18 +55,26 @@
   if heading-font == auto {
     heading-font = (fonts.黑体,)
   }
-  // 1.2 处理 heading- 开头的其他参数
+
+  // 双面打印时确保正文从奇数页开始
+  pagebreak(weak: true, to: if twoside { "odd" })
+
+  // 重置页码为阿拉伯数字从1开始
+  counter(page).update(1)
+  set page(numbering: "1")
+
+  // 2.  处理 heading- 开头的其他参数
   let heading-text-args-lists = args.named().pairs()
     .filter((pair) => pair.at(0).starts-with("heading-"))
     .map((pair) => (pair.at(0).slice("heading-".len()), pair.at(1)))
 
-  // 2.  辅助函数
+  // 3.  辅助函数
   let array-at(arr, pos) = {
     arr.at(calc.min(pos, arr.len()) - 1)
   }
 
-  // 3.  设置基本样式
-  // 3.1 文本和段落样式
+  // 4.  设置基本样式
+  // 4.1 文本和段落样式
   set text(..text-args)
   set par(
     leading: leading,
@@ -77,28 +83,28 @@
     spacing: spacing,
   )
   show raw: set text(font: fonts.等宽)
-  // 3.2 脚注样式
+  // 4.2 脚注样式
   show footnote.entry: set text(font: fonts.宋体, size: 字号.五号)
-  // 3.3 设置 figure 的编号
+  // 4.3 设置 figure 的编号
   show heading: i-figured.reset-counters
   show figure: show-figure
-  // 3.4 设置 equation 的编号和假段落首行缩进
+  // 4.4 设置 equation 的编号和假段落首行缩进
   show math.equation.where(block: true): show-equation
-  // 3.5 表格表头置顶 + 不用冒号用空格分割 + 样式
+  // 4.5 表格表头置顶 + 不用冒号用空格分割 + 样式
   show figure.where(
     kind: table
   ): set figure.caption(position: top)
   set figure.caption(separator: separator)
   show figure.caption: caption-style
   show figure.caption: set text(font: fonts.宋体, size: 字号.五号)
-  // 3.6 优化列表显示
+  // 4.6 优化列表显示
   //     术语列表 terms 不应该缩进
   show terms: set par(first-line-indent: 0pt)
 
-  // 4.  处理标题
-  // 4.1 设置标题的 Numbering
+  // 5.  处理标题
+  // 5.1 设置标题的 Numbering
   set heading(numbering: numbering)
-  // 4.2 设置字体字号并加入假段落模拟首行缩进
+  // 5.2 设置字体字号并加入假段落模拟首行缩进
   show heading: it => {
     set text(
       font: array-at(heading-font, it.level),
@@ -113,12 +119,16 @@
     )
     it
   }
-  // 4.3 标题居中与自动换页
+  // 5.3 标题居中与自动换页
   show heading: it => {
     if array-at(heading-pagebreak, it.level) {
       // 如果打上了 no-auto-pagebreak 标签，则不自动换页
       if "label" not in it.fields() or str(it.label) != "no-auto-pagebreak" {
-        pagebreak(weak: true)
+        if it.level == 1 {
+          pagebreak()
+        } else {
+          pagebreak(weak: true)
+        }
       }
     }
     if array-at(heading-align, it.level) != auto {
@@ -129,7 +139,7 @@
     }
   }
 
-  // 5.  处理页眉
+  // 6.  处理页眉
   set page(..(if display-header {
     (
       header: context {
@@ -138,42 +148,18 @@
           counter(footnote).update(0)
         }
         let loc = here()
-        // 5.1 获取当前页面的一级标题
-        let cur-heading = current-heading(level: 1)
-        // 5.2 如果当前页面没有一级标题，则渲染页眉
-        if not skip-on-first-level or cur-heading == none {
-          if header-render == auto {
-            // 判断是否为研究生
-            let is-graduate = doctype == "master" or doctype == "doctor"
-            // 双面打印时，偶数页显示论文标题
-            let header-content = if twoside and calc.rem(loc.page(), 2) == 0 and is-graduate {
-              graduate-header-title(doctype)
-            } else {
-              // 奇数页或单面打印：显示一级标题和二级标题
-              let first-level-heading = if not twoside or calc.rem(loc.page(), 2) == 1 { heading-display(active-heading(level: 1)) } else { "" }
-              let second-level-heading = if not twoside or calc.rem(loc.page(), 2) == 0 { heading-display(active-heading(level: 2, prev: false)) } else { "" }
-              if first-level-heading != "" and second-level-heading != "" {
-                first-level-heading + h(1fr) + second-level-heading
-              } else if first-level-heading != "" {
-                first-level-heading
-              } else if second-level-heading != "" {
-                second-level-heading
-              } else {
-                ""
-              }
-            }
-            // 使用统一的页眉格式
-            set text(font: fonts.宋体, size: 字号.小五)
-            align(center)[#header-content]
-            v(-0.5em)
-            line(length: 100%, stroke: 3pt + black)
-            v(-0.7em)
-            line(length: 100%, stroke: 0.5pt + black)
-          } else {
-            header-render(loc)
-          }
-          v(header-vspace)
+        // 判断是否为研究生
+        let is-graduate = doctype == "master" or doctype == "doctor"
+        // 页眉内容
+        let header-content = if twoside and calc.rem(loc.page(), 2) == 0 and is-graduate {
+          // 偶数页：显示论文标题
+          graduate-header-title(doctype)
+        } else {
+          // 奇数页或单面打印：显示当前章标题
+          heading-display(active-heading(level: 1, prev: false))
         }
+        // 使用统一的页眉格式
+        header-render(header-content, fonts: fonts)
       }
     )
   } else {
