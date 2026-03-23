@@ -144,36 +144,29 @@
 
 == 图表测试
 
-引用@tbl:timing，引用@tbl:timing-tlt，以及@fig:test。引用图表时，表格和图片分别需要加上 `tbl:`和`fig:` 前缀才能正常显示编号。
+引用@tbl:timing-tlt，以及@fig:test。引用图表时，表格和图片分别需要加上 `tbl:`和`fig:` 前缀才能正常显示编号。
 
-#align(center, (
-  stack(dir: ltr)[
-    #figure(
-      table(
-        align: center + horizon,
-        columns: 4,
-        [t], [1], [2], [3],
-        [y], [0.3s], [0.4s], [0.8s],
-      ),
-      caption: [常规表],
-    ) <timing>
-  ][
-    #h(50pt)
-  ][
-    #figure(
-      table(
-        columns: 4,
-        stroke: none,
-        table.hline(),
-        [t], [1], [2], [3],
-        table.hline(stroke: .5pt),
-        [y], [0.3s], [0.4s], [0.8s],
-        table.hline(),
-      ),
-      caption: [三线表],
-    ) <timing-tlt>
-  ]
-))
+#figure(
+  box(width: 100%)[
+    #table(
+      columns: (1fr, 1fr, 1fr, 1fr),
+      stroke: none,
+      inset: 0.3em,
+      align: center + horizon,
+
+      table.hline(y: 0, stroke: 0.5pt),
+
+      table.header([t], [1], [2], [3]),
+
+      table.hline(y: 1, stroke: 0.5pt),
+
+      [y], [0.3s], [0.4s], [0.8s],
+
+      table.hline(y: 2, stroke: 0.5pt),
+    )
+  ],
+  caption: [三线表],
+) <timing-tlt>
 
 #figure(
   rect(width: 100pt, height: 50pt, fill: blue.lighten(80%), [测试图片]),
@@ -202,19 +195,6 @@ $ F_n = floor(1 / sqrt(5) phi.alt^n) $
 == 参考文献
 
 可以像这样引用参考文献：图书#[@蒋有绪1998]和会议#[@中国力学学会1990]。
-
-== 代码块
-
-代码块支持语法高亮。引用时需要加上 `lst:` @lst:code
-
-#figure(
-  ```py
-  def add(x, y):
-    return x + y
-  ```,
-  caption: [代码块],
-) <code>
-
 
 = 研究方法
 
