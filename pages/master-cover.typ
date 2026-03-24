@@ -1,4 +1,4 @@
-#import "../utils/datetime-display.typ": datetime-display, datetime-en-display
+#import "../utils/datetime-display.typ": datetime-display, datetime-en-display, datetime-year-month, datetime-year-month-en
 #import "../utils/justify-text.typ": justify-text
 #import "../utils/style.typ": 字体, 字号
 
@@ -68,7 +68,11 @@
   info.title = info.title + range(min-title-lines - info.title.len()).map(it => "　")
   info.reviewer = info.reviewer + range(min-reviewer-lines - info.reviewer.len()).map(it => "　")
   // 2.3 处理日期
-  assert(type(info.submit-date) == datetime, message: "submit-date must be datetime.")
+  // submit-date 支持 datetime 或 (year: 2026, month: 3) 格式
+  if type(info.submit-date) == dictionary {
+    info.submit-date = datetime(year: info.submit-date.year, month: info.submit-date.month, day: 1)
+  }
+  assert(type(info.submit-date) == datetime, message: "submit-date must be datetime or (year, month) dictionary.")
   if type(info.defend-date) == datetime {
     info.defend-date = datetime-display(info.defend-date)
   }
@@ -115,6 +119,38 @@
         },
       ),
     )
+  }
+
+  // 名字等宽处理：在较短名字的字符间插入全角空格，使两个字名等宽
+  let pad-name(name, target-len) = {
+    let clusters = name.clusters()
+    let current-len = clusters.len()
+    if current-len >= target-len {
+      name
+    } else {
+      // 计算需要插入的全角空格数
+      let spaces-needed = target-len - current-len
+      // 将空格均匀分布在字符之间
+      let result = ()
+      let gap-count = current-len - 1
+      if gap-count == 0 {
+        // 单字名，在后面加空格
+        result.push(clusters.at(0))
+        result.push("　" * spaces-needed)
+      } else {
+        // 计算每个间隔需要插入的空格数（使用 floor 实现整数除法）
+        let base-spaces = calc.floor(spaces-needed / gap-count)
+        let extra-spaces = calc.rem(spaces-needed, gap-count)
+        for i in range(current-len) {
+          result.push(clusters.at(i))
+          if i < gap-count {
+            let spaces = base-spaces + (if i < extra-spaces { 1 } else { 0 })
+            result.push("　" * spaces)
+          }
+        }
+      }
+      result.join("")
+    }
   }
 
 
@@ -213,9 +249,7 @@
       table.cell(align: center + horizon, stroke: (bottom: stroke-width), [#info.department]),
       // 第四行：申请日期
       table.cell(align: center + bottom, [申 请 日 期]),
-      table.cell(align: center + horizon, stroke: (bottom: stroke-width), [#info.submit-date.display(
-        "[year] 年 [month] 月",
-      )]),
+      table.cell(align: center + horizon, stroke: (bottom: stroke-width), [#datetime-year-month(info.submit-date)]),
     )
   ]
 
@@ -265,6 +299,11 @@
 
   let major-label = if degree == "professional" { "专业领域" } else { "学科专业" }
 
+  // 计算作者和指导教师名字的最大长度，用于等宽显示
+  let author-name = info.author
+  let supervisor-name = info.supervisor.at(0)
+  let max-name-len = calc.max(author-name.clusters().len(), supervisor-name.clusters().len())
+
 
   v(6 * 10.5pt * 1.5) // 约 94pt
 
@@ -272,10 +311,10 @@
   set text(font: fonts.宋体, size: 字号.三号)
 
   align(center)[
-    #set text(font: fonts.宋体, size: 字号.三号, weight: "bold")
+    #set text(font: fonts.宋体, size: 字号.三号)
     #table(
       columns: (3.59cm, 5cm),
-      rows: (1cm, 1cm, 1cm, 1cm),
+      rows: (1.2cm),
       stroke: none,
       inset: (x: 0pt, y: 4pt),
       // 第一行：学科专业
@@ -283,17 +322,17 @@
       table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#info.major]),
       // 第二行：作者
       table.cell(align: center + bottom, [作　　者:]),
-      table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#anonymous-text("author", info.author)]),
+      table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#anonymous-text("author", pad-name(author-name, max-name-len))]),
       // 第三行：指导教师
       table.cell(align: center + bottom, [指导教师:]),
-      table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#anonymous-text("supervisor", info.supervisor.at(0))]),
+      table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#anonymous-text("supervisor", pad-name(supervisor-name, max-name-len))]),
     )
   ]
 
   v(2 * 10.5pt * 1.5) // 约 31pt
 
   // 日期
-  text(font: fonts.宋体, size: 字号.三号, info.submit-date.display("[year] 年 [month] 月"))
+  text(font: fonts.宋体, size: 字号.三号, datetime-year-month(info.submit-date))
 
   // 双面打印时，如果中文内封结束在奇数页，添加空白偶数页
   if twoside {
@@ -332,7 +371,17 @@
 
   v(0pt)
 
-  text(weight: "bold")[Under the Supervision of Professor]
+  // 中文学术职称到英文的映射
+  let title-en-map = (
+    "教授": "Professor",
+    "副教授": "Associate Professor",
+    "研究员": "Researcher",
+    "讲师": "Lecturer",
+  )
+  // 获取导师英文职称，默认为 Professor
+  let supervisor-title-en = title-en-map.at(info.supervisor.at(1, default: "教授"), default: "Professor")
+
+  text(weight: "bold")[Under the Supervision of #supervisor-title-en]
   v(0pt)
   text(anonymous-text("supervisor-en", { info.supervisor-en }))
 
@@ -363,7 +412,7 @@
   // 地点和日期
   [Xi'an, P.R. China]
   v(0pt)
-  text(font: "Times New Roman", info.submit-date.display("[month repr:long]/[year]"))
+  text(font: "Times New Roman", datetime-year-month-en(info.submit-date))
 
   // 双面打印时，如果英文封面结束在奇数页，添加空白偶数页
   if twoside {
@@ -411,7 +460,7 @@
 
   // 处理答辩日期
   let defence-date-display = if type(info.defence-committee.date) == datetime {
-    info.defence-committee.date.display("[year] 年 [month] 月 [day] 日")
+    datetime-display(info.defence-committee.date)
   } else {
     info.defence-committee.date
   }

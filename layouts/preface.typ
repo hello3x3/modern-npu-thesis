@@ -20,8 +20,10 @@
 
   // 2. 页面全局设置
   set page(
-    numbering: "I",
-    number-align: center,
+    footer: context align(center)[
+      #set text(size: 字号.小五)
+      #counter(page).display("I")
+    ],
   )
 
   // 3. 页眉设置

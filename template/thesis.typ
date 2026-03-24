@@ -17,16 +17,15 @@
     major-en: "Computer Science and Technology",
     supervisor: ("张三", "教授"),
     supervisor-en: "San Zhang",
-    submit-date: datetime.today(),
+    submit-date: (year: 2026, month: 3),
     // 评阅人名单
     reviewers: (
-      (name: "张某某", title: "教授", unit: "西北工业大学"),
-      (name: "李某某", title: "教授", unit: "西安交通大学"),
-      (name: "王某某", title: "教授", unit: "西安电子科技大学"),
+      (name: "xxx", title: "教授", unit: "西北工业大学（明评示例）"),
+      (name: "全盲评阅", title: "无", unit: "无（盲评示例）"),
     ),
     // 答辩委员会信息
     defence-committee: (
-      date: datetime(year: 2024, month: 6, day: 1),
+      date: datetime(year: 2026, month: 3, day: 9),
       members: (
         (role: "主席", name: "赵某某", title: "教授", unit: "西北工业大学"),
         (role: "委员", name: "钱某某", title: "教授", unit: "西安交通大学"),
@@ -73,7 +72,7 @@
 
     [1] 项目名称，项目编号，起止时间。
   ],
-  // 声明扫描页（传入 image 对象以解决相对路径问题）
+  // 声明扫描页
   scan-declaration: image("images/声明.pdf", width: 100%, height: 100%),
 )
 
@@ -194,23 +193,23 @@
     gutter: 1em,
     align(center)[
       #image("images/专硕论文封面.jpg", width: 50%)
-      
+
       (a) 第一个子图说明
     ],
     align(center)[
       #image("images/专硕论文封底.jpg", width: 50%)
-      
+
       (b) 第二个子图说明
     ],
-    
+
     align(center)[
       #image("images/学硕论文封面.jpg", width: 50%)
-      
+
       (c) 第三个子图说明
     ],
     align(center)[
       #image("images/学硕论文封底.jpg", width: 50%)
-      
+
       (d) 第四个子图说明
     ],
   ),

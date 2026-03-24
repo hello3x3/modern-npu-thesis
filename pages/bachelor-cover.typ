@@ -43,6 +43,10 @@
   // 2.2 根据 min-title-lines 填充标题
   info.title = info.title + range(min-title-lines - info.title.len()).map((it) => "　")
   // 2.3 处理提交日期
+  // submit-date 支持 datetime 或 (year: 2026, month: 3) 格式
+  if type(info.submit-date) == dictionary {
+    info.submit-date = datetime(year: info.submit-date.year, month: info.submit-date.month, day: 1)
+  }
   if type(info.submit-date) == datetime {
     info.submit-date = datetime-display(info.submit-date)
   }

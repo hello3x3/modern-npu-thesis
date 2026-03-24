@@ -61,7 +61,12 @@
 
   // 重置页码为阿拉伯数字从1开始
   counter(page).update(1)
-  set page(numbering: "1")
+  set page(
+    footer: context align(center)[
+      #set text(size: 字号.小五)
+      #counter(page).display("1")
+    ],
+  )
 
   // 2.  处理 heading- 开头的其他参数
   let heading-text-args-lists = args
