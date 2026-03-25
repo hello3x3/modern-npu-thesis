@@ -18,7 +18,7 @@
     pagebreak(weak: true, to: if twoside { "odd" })
     [
       #set text(font: fonts.宋体, size: 字号.小四)
-      #set par(leading: 1.5em, justify: true)
+      #set par(leading: 0.9em, justify: true)
 
       // 使用统一的一级标题样式
       #show heading.where(level: 1, numbering: none): it => preface-heading-style(it, fonts)

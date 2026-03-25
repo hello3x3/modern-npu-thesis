@@ -12,7 +12,7 @@
   doctype: "bachelor",
   fonts: (:),
   // 其他参数
-  leading: 1.0em,
+  leading: 0.9em,
   spacing: 1.0em,
   justify: true,
   first-line-indent: (amount: 2em, all: true),
