@@ -51,3 +51,5 @@ typst compile --root . --package-cache-path .typst/packages --font-path fonts te
 ## License
 
 MIT License
+Copyright (c) 2024 OrangeX4
+Copyright (c) 2026 Jiayi Yan
