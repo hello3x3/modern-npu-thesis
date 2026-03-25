@@ -6,29 +6,31 @@ on:
       - ".github/workflows/render-thesis.yml"
       - ".github/typst-packages.typ"
       - "template/**"
-      - "layouts/**"
-      - "pages/**"
-      - "utils/**"
+      - "lib/**"
       - "fonts/**"
+      - "template.typ"
+      - "thesis.typ"
       - "lib.typ"
       - "typst.toml"
-      - "README.md"
   pull_request:
     paths:
       - ".github/workflows/render-thesis.yml"
       - ".github/typst-packages.typ"
       - "template/**"
-      - "layouts/**"
-      - "pages/**"
-      - "utils/**"
+      - "lib/**"
       - "fonts/**"
+      - "template.typ"
+      - "thesis.typ"
       - "lib.typ"
       - "typst.toml"
-      - "README.md"
   workflow_dispatch:
 
 permissions:
   contents: read
+
+env:
+  PACKAGE_NAME: nwputhesis-typst
+  PACKAGE_VERSION: 0.1.0
 
 jobs:
   render:
@@ -59,12 +61,27 @@ jobs:
       - name: Create output directory
         run: New-Item -ItemType Directory -Force -Path dist | Out-Null
 
-      - name: Compile thesis
-        run: typst compile --root . --font-path fonts template/thesis.typ dist/thesis.pdf
+      - name: Compile repository example
+        run: typst compile --root . --font-path fonts thesis.typ dist/thesis.pdf
+
+      - name: Install package locally for template smoke test
+        run: |
+          $packageRoot = Join-Path (Get-Location) ".typst/packages"
+          $packageDir = Join-Path $packageRoot "preview/$env:PACKAGE_NAME/$env:PACKAGE_VERSION"
+          New-Item -ItemType Directory -Force -Path $packageDir | Out-Null
+
+          Get-ChildItem -Force | Where-Object {
+            $_.Name -notin @(".git", ".github", ".typst", ".vscode", "dist")
+          } | Copy-Item -Destination $packageDir -Recurse -Force
+
+      - name: Compile package template entrypoint
+        run: typst compile --root . --package-cache-path .typst/packages --font-path fonts template/main.typ dist/thesis-template.pdf
 
       - name: Upload PDF artifact
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v6
         with:
           name: thesis-pdf
-          path: dist/thesis.pdf
+          path: |
+            dist/thesis.pdf
+            dist/thesis-template.pdf

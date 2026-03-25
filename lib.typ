@@ -3,27 +3,27 @@
 // Author: https://github.com/OrangeX4 (original NJU version)
 // 在线模板可能不会更新得很及时，如果需要最新版本，请关注 Repo
 
-#import "layouts/doc.typ": doc
-#import "layouts/preface.typ": preface
-#import "layouts/mainmatter.typ": mainmatter
-#import "layouts/appendix.typ": appendix
-#import "utils/header.typ": add-blank-even-page
-#import "utils/header.typ": break-to-odd-page
-#import "pages/bachelor-cover.typ": bachelor-cover
-#import "pages/master-cover.typ": master-cover
-#import "pages/bachelor-abstract.typ": bachelor-abstract
-#import "pages/master-abstract.typ": master-abstract
-#import "pages/bachelor-abstract-en.typ": bachelor-abstract-en
-#import "pages/master-abstract-en.typ": master-abstract-en
-#import "pages/bachelor-outline-page.typ": bachelor-outline-page
-#import "pages/acknowledgement.typ": acknowledgement
-#import "pages/academic-achievements.typ": academic-achievements
-#import "utils/custom-cuti.typ": *
-#import "utils/bilingual-bibliography.typ": bilingual-bibliography
-#import "utils/custom-numbering.typ": custom-numbering
-#import "utils/custom-heading.typ": active-heading, current-heading, heading-display
+#import "lib/layouts/doc.typ": doc
+#import "lib/layouts/preface.typ": preface
+#import "lib/layouts/mainmatter.typ": mainmatter
+#import "lib/layouts/appendix.typ": appendix
+#import "lib/utils/header.typ": add-blank-even-page
+#import "lib/utils/header.typ": break-to-odd-page
+#import "lib/pages/bachelor-cover.typ": bachelor-cover
+#import "lib/pages/master-cover.typ": master-cover
+#import "lib/pages/bachelor-abstract.typ": bachelor-abstract
+#import "lib/pages/master-abstract.typ": master-abstract
+#import "lib/pages/bachelor-abstract-en.typ": bachelor-abstract-en
+#import "lib/pages/master-abstract-en.typ": master-abstract-en
+#import "lib/pages/bachelor-outline-page.typ": bachelor-outline-page
+#import "lib/pages/acknowledgement.typ": acknowledgement
+#import "lib/pages/academic-achievements.typ": academic-achievements
+#import "lib/utils/custom-cuti.typ": *
+#import "lib/utils/bilingual-bibliography.typ": bilingual-bibliography
+#import "lib/utils/custom-numbering.typ": custom-numbering
+#import "lib/utils/custom-heading.typ": active-heading, current-heading, heading-display
 #import "@preview/i-figured:0.2.4": show-equation, show-figure
-#import "utils/style.typ": 字体, 字号
+#import "lib/utils/style.typ": 字体, 字号
 
 #let indent = h(2em)
 

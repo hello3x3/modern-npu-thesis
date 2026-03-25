@@ -1,6 +1,4 @@
-#import "../lib.typ": appendix, nwpu-thesis
-
-#show: nwpu-thesis.with(
+#let thesis-config = (
   doctype: "master", // "bachelor" | "master" | "doctor",
   degree: "professional", // "academic" | "professional",
   anonymous: false, // 是否开启盲审模式
@@ -71,6 +69,8 @@
   // 声明扫描页
   scan-declaration: image("images/声明.pdf", width: 100%, height: 100%),
 )
+
+#let thesis-body = [
 
 // ==========================================
 // 正文开始
@@ -200,3 +200,4 @@ $ F_n = floor(1 / sqrt(5) phi.alt^n) $
 == 实验设计
 
 实验设计内容。
+]

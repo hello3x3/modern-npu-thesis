@@ -65,11 +65,11 @@
 
   if colored-cover and (doctype == "master" or doctype == "doctor") {
     let bg = if doctype == "doctor" {
-      "../template/images/博士论文封底.jpg"
+      "../../template/images/博士论文封底.jpg"
     } else if degree == "professional" {
-      "../template/images/专硕论文封底.jpg"
+      "../../template/images/专硕论文封底.jpg"
     } else {
-      "../template/images/学硕论文封底.jpg"
+      "../../template/images/学硕论文封底.jpg"
     }
     // 保证封底单独在一页
     pagebreak(weak: true)

@@ -1,5 +1,7 @@
 {
   "tinymist.typstExtraArgs": [
+    "--package-cache-path",
+    ".typst/packages",
     "--font-path",
     "fonts"
   ]
