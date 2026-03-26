@@ -27,10 +27,10 @@
   link(
     element.location(),
     [算法 #numbering(
-      "1-1",
-      counter(heading).at(element.location()).first(),
-      counter(algorithm-figure).at(element.location()).first(),
-    )],
+        "1-1",
+        counter(heading).at(element.location()).first(),
+        counter(algorithm-figure).at(element.location()).first(),
+      )],
   )
 }
 
@@ -43,7 +43,7 @@
   table(
     columns: (2.8em, 1fr),
     stroke: none,
-    inset: (x: 0.3em, y: 0.35em),
+    inset: (x: 0.3em, y: 0.4em),
     align: (right, left),
 
     table.hline(y: 0, stroke: 1.5pt),
