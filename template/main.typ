@@ -50,9 +50,13 @@
   keywords-en: ("Keyword1", "Keyword2", "Keyword3", "Keyword4"),
   // 附录
   appendix: [
-    = 附　录
+    = 附录标题A
 
-    附录内容。
+    附录A内容。
+
+    = 附录标题B
+
+    附录B内容。
   ],
   // 致谢
   acknowledgement: [
