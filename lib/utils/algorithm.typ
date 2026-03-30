@@ -5,11 +5,16 @@
 #let algorithm-label(number, loc) = context {
   let heading-number = counter(heading).at(loc).first()
   let is-appendix = query(selector(<appendix-start>).before(loc)).len() > query(selector(<appendix-end>).before(loc)).len()
-  let is-multi-appendix = query(
+  let appendix-count = query(
     selector(heading.where(level: 1)).after(selector(<appendix-start>)).before(selector(<appendix-end>)),
-  ).len() > 1
-  if is-appendix and is-multi-appendix {
-    [#numbering("A", heading-number)-#numbering("1", number)]
+  ).len()
+  if is-appendix {
+    let appendix-prefix = if appendix-count > 1 {
+      numbering("A", heading-number)
+    } else {
+      numbering("A", 1)
+    }
+    [#appendix-prefix-#numbering("1", number)]
   } else {
     numbering("1-1", heading-number, number)
   }

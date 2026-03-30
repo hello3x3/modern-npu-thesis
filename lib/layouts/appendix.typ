@@ -18,9 +18,14 @@
     let appendix-headings = query(
       selector(heading.where(level: 1)).after(selector(<appendix-start>)).before(selector(<appendix-end>)),
     )
-    let multi-appendix = appendix-headings.len() > 1
+    let has-appendix = appendix-headings.len() > 0
+    let appendix-prefix = if has-appendix {
+      numbering("A", 1)
+    } else {
+      "A"
+    }
 
-    let appendix-numbering = if multi-appendix {
+    let appendix-numbering = if appendix-headings.len() > 1 {
       custom-numbering.with(
         first-level: n => [附录#numbering("A", n)#h(0.7em)],
         depth: 4,
@@ -28,9 +33,9 @@
       )
     } else {
       custom-numbering.with(
-        first-level: n => [附　录#h(0.7em)],
+        first-level: n => [附录#appendix-prefix#h(0.7em)],
         depth: 4,
-        "1.1 ",
+        "A.1 ",
       )
     }
 
@@ -40,9 +45,9 @@
     }
 
     show heading: i-figured.reset-counters
-    show figure: i-figured.show-figure.with(numbering: if multi-appendix { "A-1" } else { "1-1" })
+    show figure: i-figured.show-figure.with(numbering: if appendix-headings.len() > 1 { "A-1" } else { "A-1" })
     show math.equation.where(block: true): i-figured.show-equation.with(
-      numbering: if multi-appendix { "(A-1)" } else { "(1-1)" },
+      numbering: if appendix-headings.len() > 1 { "(A-1)" } else { "(A-1)" },
     )
 
     [
