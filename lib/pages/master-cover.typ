@@ -217,19 +217,28 @@
   v(2 * 10.5pt * 1.02)
   
   // 作者（一行两列表格，只保留第二列下框线）
-  align(center)[
-    #set text(font: fonts.宋体, size: 字号.三号, weight: "bold")
-    #table(
-      columns: (1.56cm, 3.72cm),
-      rows: 1.28cm,
-      stroke: none,
-      inset: (x: 0pt, y: 4pt),
-      // 第一列：作者
-      table.cell(align: center + bottom, [作者]),
-      // 第二列：作者姓名（只有下框线）
-      table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#anonymous-text("author", info.author)]),
+  // 使用 context 测量作者姓名实际宽度，最小为 3.72cm
+  context {
+    let author-display = anonymous-text("author", info.author)
+    let author-width = calc.max(
+      3.72cm,
+      measure(text(font: fonts.宋体, size: 字号.三号, weight: "bold", author-display)).width,
     )
-  ]
+    
+    align(center)[
+      #set text(font: fonts.宋体, size: 字号.三号, weight: "bold")
+      #table(
+        columns: (1.56cm, author-width),
+        rows: 1.28cm,
+        stroke: none,
+        inset: (x: 0pt, y: 4pt),
+        // 第一列：作者
+        table.cell(align: center + bottom, [作者]),
+        // 第二列：作者姓名（只有下框线）
+        table.cell(align: center + bottom, stroke: (bottom: stroke-width), [#author-display]),
+      )
+    ]
+  }
   
   v(3 * 10.5pt * 1.06)
   
@@ -490,15 +499,17 @@
     let chairman = defence-committee.at("chairman", default: none)
     let secretary = defence-committee.at("secretary", default: none)
     let members = defence-committee.at("members", default: ())
-
+    
     if chairman != none or secretary != none {
       let chairman-row = if chairman != none {
-        ((
-          role: "主席",
-          name: chairman.at("name", default: ""),
-          title: chairman.at("title", default: ""),
-          unit: chairman.at("unit", default: ""),
-        ),)
+        (
+          (
+            role: "主席",
+            name: chairman.at("name", default: ""),
+            title: chairman.at("title", default: ""),
+            unit: chairman.at("unit", default: ""),
+          ),
+        )
       } else {
         ()
       }
@@ -509,16 +520,18 @@
         unit: member.at("unit", default: ""),
       ))
       let secretary-row = if secretary != none {
-        ((
-          role: "秘书",
-          name: secretary.at("name", default: ""),
-          title: secretary.at("title", default: ""),
-          unit: secretary.at("unit", default: ""),
-        ),)
+        (
+          (
+            role: "秘书",
+            name: secretary.at("name", default: ""),
+            title: secretary.at("title", default: ""),
+            unit: secretary.at("unit", default: ""),
+          ),
+        )
       } else {
         ()
       }
-
+      
       chairman-row + member-rows + secretary-row
     } else {
       members
@@ -536,9 +549,7 @@
       align: center,
       [*答辩日期*], table.cell(colspan: 3, [#defence-date-display]),
       [*答辩委员会*], [*姓名*], [*职称*], [*工作单位*],
-      ..defence-members
-        .map(m => ([*#m.role*], [#anonymous-text("reviewer", m.name)], [#m.title], [#m.unit]))
-        .flatten(),
+      ..defence-members.map(m => ([*#m.role*], [#anonymous-text("reviewer", m.name)], [#m.title], [#m.unit])).flatten(),
     )
   ]
 }
