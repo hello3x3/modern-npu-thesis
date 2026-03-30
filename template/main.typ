@@ -37,7 +37,7 @@
       secretary: (name: "郑某某", title: "讲师", unit: "西北工业大学"),
     ),
   ),
-  bibliography: bibliography.with("template/ref.bib"),
+  bibliography: bibliography.with("ref.bib"),
   abstract: [
     中文摘要内容。中文摘要一般应说明研究工作目的、实验方法、结果和最终结论等，而重点是结果和结论。摘要中不用图、表、化学结构式、非公知公用的符号和术语。
   ],
@@ -60,7 +60,7 @@
   academic-achievements: [
     不同类型的成果列表书写格式与参考文献相同。对于学术论文，如已发表的被EI或SCI收录，应标明收录号；SCI论文一般应标注发表当年的影响因子；对已录用但尚未发表的学术论文，请注明是否EI或SCI刊源。
   ],
-  scan-declaration: image("template/images/声明.pdf", width: 100%, height: 100%),
+  scan-declaration: image("images/声明.pdf", width: 100%, height: 100%),
 )
 
 #let thesis-body = [
@@ -126,7 +126,7 @@
   ) <composite-performance>
 
   #figure(
-    image("template/images/博士论文封面.jpg", width: 45%),
+    image("images/博士论文封面.jpg", width: 45%),
     caption: [图片测试],
   ) <test>
 
@@ -137,11 +137,11 @@
       columns: (1fr, 1fr),
       gutter: 1em,
       align(center)[
-        #image("template/images/博士论文封面.jpg", width: 60%)
+        #image("images/博士论文封面.jpg", width: 60%)
         (a) 第一个子图说明
       ],
       align(center)[
-        #image("template/images/博士论文封底.jpg", width: 60%)
+        #image("images/博士论文封底.jpg", width: 60%)
         (b) 第二个子图说明
       ],
     ),
@@ -154,20 +154,20 @@
       rows: (200pt, 200pt),
       gutter: 1em,
       align(center)[
-        #image("template/images/专硕论文封面.jpg", width: 50%)
+        #image("images/专硕论文封面.jpg", width: 50%)
         (a) 第一个子图说明
       ],
       align(center)[
-        #image("template/images/专硕论文封底.jpg", width: 50%)
+        #image("images/专硕论文封底.jpg", width: 50%)
         (b) 第二个子图说明
       ],
 
       align(center)[
-        #image("template/images/学硕论文封面.jpg", width: 50%)
+        #image("images/学硕论文封面.jpg", width: 50%)
         (c) 第三个子图说明
       ],
       align(center)[
-        #image("template/images/学硕论文封底.jpg", width: 50%)
+        #image("images/学硕论文封底.jpg", width: 50%)
         (d) 第四个子图说明
       ],
     ),
