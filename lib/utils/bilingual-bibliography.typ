@@ -5,9 +5,13 @@
   title: "参考文献",
   full: false,
   style: "gb-7714-2015-numeric",
-  label-shift: 2em,
-  content-shift: -0.2em,
-  content-hanging-indent: -1.8em,
+  label-shift: 2.1em,
+  label-gap: 0.5em,
+  content-shift: -0.5em,
+  content-hanging-indent: -4.3em,
+  single-digit-content-hanging-indent: auto,
+  double-digit-content-hanging-indent: -4.8em,
+  triple-digit-content-hanging-indent: -5.2em,
   mapping: (:),
   extra-comma-before-et-al-trans: false,
   // 用于控制多位译者时表现为 `et al. tran`(false) 还是 `et al., tran`(true)
@@ -40,18 +44,64 @@
       to-string(content.body)
     } else if content == [ ] {
       " "
+    } else {
+      ""
     }
   }
 
-  let render-content(text) = {
-    par(hanging-indent: content-hanging-indent)[
-      #h(content-shift)
-      #text
-    ]
+  let resolve-hanging-indent(label-digits) = {
+    if label-digits == 1 and single-digit-content-hanging-indent != auto {
+      single-digit-content-hanging-indent
+    } else if label-digits == 2 and double-digit-content-hanging-indent != auto {
+      double-digit-content-hanging-indent
+    } else if label-digits == 3 and triple-digit-content-hanging-indent != auto {
+      triple-digit-content-hanging-indent
+    } else {
+      content-hanging-indent
+    }
   }
 
-  show grid.cell.where(x: 0): it => [#move(dx: label-shift, dy: 0.1em, it)]
-  show grid.cell.where(x: 1): it => {
+  let render-content(text, hanging-indent: content-hanging-indent) = {
+    par(
+      first-line-indent: (amount: content-shift, all: true),
+      hanging-indent: hanging-indent,
+    )[#text]
+  }
+
+  let render-shifted-content(text, dx, hanging-indent: content-hanging-indent) = {
+    pad(
+      left: dx,
+      block(
+        width: 100%,
+        render-content(text, hanging-indent: hanging-indent),
+      ),
+    )
+  }
+
+  let label-widths = state("bilingual-bibliography-label-widths", ())
+
+  show grid.cell.where(x: 0): it => context {
+    let label-width = measure(it).width
+    [
+      #label-widths.update(widths => widths + (label-width,))
+      #move(dx: label-shift, dy: 0em, it)
+    ]
+  }
+  show grid.cell.where(x: 1): it => context {
+    let widths = label-widths.get()
+    let max-label-width = label-widths.final().fold(0pt, (acc, width) => if width > acc { width } else { acc })
+    let current-label-width = widths.last(default: max-label-width)
+    let current-index = widths.len()
+    let current-label-digits = if current-index >= 100 {
+      3
+    } else if current-index >= 10 {
+      2
+    } else {
+      1
+    }
+    let content-dx = label-shift - (max-label-width - current-label-width - label-gap)
+    let hanging-indent = resolve-hanging-indent(current-label-digits)
+
     // 后续的操作是对 string 进行的。
     let ittext = to-string(it)
     // 判断是否为中文文献：去除特定词组后，仍有至少两个连续汉字。
@@ -64,7 +114,7 @@
           itt.text.replace(regex("\[Z\]"), "[S]")
         },
       )
-      render-content(ittext)
+      render-shifted-content(ittext, content-dx, hanging-indent: hanging-indent)
     } else {
       // 若不是中文文献，进行替换
       // 第xxx卷、第xxx册的情况：变为 Vol. XXX 或 Bk. XXX。
@@ -153,7 +203,7 @@
           // 注意：若替换功能工作良好，应该不会出现 `default` 情形
         },
       )
-      render-content(reptext)
+      render-shifted-content(reptext, content-dx, hanging-indent: hanging-indent)
     }
   }
 
