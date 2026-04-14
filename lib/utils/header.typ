@@ -6,10 +6,11 @@
 // 直接对齐 LaTeX 模板中的 geometry/fancyhdr 参数
 #let graduate_header_ascent = 0.93cm
 #let bachelor_header_ascent = 0.4cm
-#let graduate_headsep = 0.11cm
+#let graduate_headsep = -0.1cm
+#let graduate_headrule_offset = 0.3cm
 #let bachelor_headsep = 0.04cm
 #let bachelor_headrule = 0.8pt
-#let graduate_headrule_thick = 3.4pt
+#let graduate_headrule_thick = 3.2pt
 #let graduate_headrule_thin = 0.6pt
 
 // 页眉配置（用于 set page）
@@ -29,9 +30,11 @@
     #set text(font: fonts.宋体, size: 字号.小五)
     #align(center)[#content]
     #v(graduate_headsep)
-    #line(length: 100%, stroke: graduate_headrule_thick + black)
-    #v(-0.15em)
-    #line(length: 100%, stroke: graduate_headrule_thin + black)
+    #move(dy: graduate_headrule_offset)[
+      #line(length: 100%, stroke: graduate_headrule_thick + black)
+      #v(0.35em)
+      #line(length: 100%, stroke: graduate_headrule_thin + black)
+    ]
   ]
 }
 
