@@ -49,7 +49,9 @@
       align(center, it)
     }
     #v(preface-heading-above)
+    #box(width: 0pt, height: 0pt) <__nwpu_master_abstract_en_heading_start__>
     #heading(level: 1, outlined: outlined, outline-title)
+    #box(width: 0pt, height: 0pt) <__nwpu_master_abstract_en_heading_end__>
 
     #[
       #set text(font: "Times New Roman", size: 字号.小四)

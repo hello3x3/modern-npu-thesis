@@ -161,6 +161,10 @@
         query(selector(<appendix-start>).before(entry.element.location())).len()
         > query(selector(<appendix-end>).before(entry.element.location())).len()
       )
+      let is-master-abstract-en-entry = (
+        query(selector(<__nwpu_master_abstract_en_heading_start__>).before(entry.element.location())).len()
+        > query(selector(<__nwpu_master_abstract_en_heading_end__>).before(entry.element.location())).len()
+      )
       let prefix = if not is-graduate and entry.level == 1 and entry.prefix() not in (none, []) and not is-appendix-entry {
         let nums = counter(heading).at(entry.element.location())
         [第#chinese_chapter_number(nums.first())章 ]
@@ -187,7 +191,11 @@
                   prefix
                   h(prefix-gap)
                 }
-                entry.body()
+                if is-graduate and is-master-abstract-en-entry {
+                  [ABSTRACT]
+                } else {
+                  entry.body()
+                }
               },
             )
             box(width: 1fr, inset: (x: .25em), fill.at(entry.level - 1, default: fill.last()))
