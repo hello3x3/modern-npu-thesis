@@ -663,7 +663,11 @@
 
   // 声明扫描页
   if scan-declaration != none and doctype != "bachelor" {
-    page(margin: 0pt)[
+    page(
+      margin: 0pt,
+      header: none,
+      footer: none,
+    )[
       #scan-declaration
       #box(width: 0pt, height: 0pt) <__nwpu_backmatter_end__>
     ]
