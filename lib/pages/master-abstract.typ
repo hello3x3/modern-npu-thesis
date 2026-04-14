@@ -1,6 +1,6 @@
 #import "../utils/style.typ": 字体, 字号
 #import "../utils/header.typ": header-render
-#import "../layouts/preface.typ": preface-heading-above, preface-heading-style
+#import "../layouts/preface.typ": preface-heading-above, preface-heading-style, preface-body-leading, preface-body-spacing, preface-body-first-line-indent
 
 #let master-abstract(
   doctype: "master",
@@ -38,7 +38,7 @@
   pagebreak(weak: true, to: if twoside { "odd" })
 
   [
-    #set par(leading: leading, spacing: spacing, justify: true)
+    #set par(leading: preface-body-leading, spacing: preface-body-spacing, justify: true)
 
     // 使用统一的一级标题样式
     #show heading.where(level: 1): it => preface-heading-style(it, fonts)
@@ -47,7 +47,7 @@
 
     #[
       #set text(font: fonts.宋体, size: 字号.小四)
-      #set par(first-line-indent: (amount: 2em, all: true))
+      #set par(first-line-indent: preface-body-first-line-indent)
       #body
     ]
 

@@ -1,7 +1,7 @@
 #import "../utils/style.typ": 字体, 字号
 #import "../utils/header.typ": header-render
 #import "../layouts/preface.typ": (
-  preface-heading-style, preface-heading-above, preface-heading-below,
+  preface-heading-style, preface-heading-above, preface-heading-below, preface-heading-leading, preface-body-leading, preface-body-spacing,
 )
 
 // 目录生成页面
@@ -77,7 +77,7 @@
     }
   }
   if title-leading == auto {
-    title-leading = if is-graduate { 0.9em } else { leading }
+    title-leading = if is-graduate { preface-heading-leading } else { leading }
   }
   if title-above == auto {
     title-above = if is-graduate { preface-heading-above } else { 0pt }
@@ -123,7 +123,10 @@
   }
   // 行间距
   if leading == auto {
-    leading = 14pt
+    leading = if is-graduate { preface-body-leading } else { 14pt }
+  }
+  if is-graduate {
+    spacing = preface-body-spacing
   }
 
   // 2.  正式渲染

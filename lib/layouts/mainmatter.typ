@@ -199,6 +199,12 @@
       counter(figure.where(kind: "algorithm")).update(0)
     }
 
+    // 无编号一级标题（如致谢、参考文献、成果页等）不应继续沿用正文标题版式，
+    // 否则会把正文的段前距和换页规则叠加到后置部分页面上。
+    if it.level == 1 and it.numbering == none {
+      return it
+    }
+
     set text(
       font: array-at(heading-font, it.level),
       size: array-at(heading-size, it.level),

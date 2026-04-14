@@ -10,10 +10,18 @@
 // 一级标题间距（默认值，可由模板入口覆盖）
 #let heading-above = 2 * 14pt - 0.7em
 #let heading-below = 2 * 17pt - 0.7em
+#let graduate-heading-leading = 2.4pt
+#let graduate-body-leading = 0.9em
+#let graduate-body-spacing = 0pt
+#let graduate-body-first-line-indent = (amount: 2em, all: true)
 
 // 兼容旧名称的别名
 #let preface-heading-above = heading-above
 #let preface-heading-below = heading-below
+#let preface-heading-leading = graduate-heading-leading
+#let preface-body-leading = graduate-body-leading
+#let preface-body-spacing = graduate-body-spacing
+#let preface-body-first-line-indent = graduate-body-first-line-indent
 
 // 标题字体配置
 #let preface-heading-font = fonts => fonts.黑体  // 函数，传入 fonts 返回字体
@@ -102,7 +110,7 @@
       below: preface-heading-below,
     )
     show heading.where(level: 1, numbering: none): set par(
-      leading: 0.9em,
+      leading: preface-heading-leading,
       spacing: 0pt,
     )
   }

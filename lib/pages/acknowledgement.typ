@@ -1,6 +1,6 @@
 
 #import "../utils/style.typ": 字号, 字体
-#import "../layouts/preface.typ": preface-heading-style
+#import "../layouts/preface.typ": preface-heading-style, preface-heading-above, preface-heading-below, preface-heading-leading, preface-body-leading, preface-body-spacing, preface-body-first-line-indent
 
 // 致谢页
 #let acknowledgement(
@@ -11,9 +11,9 @@
   english-writing: false,
   leading: 2.4pt,
   spacing: 0pt,
-  title-leading: 2.4pt,
-  title-above: 0pt,
-  title-below: 0pt,
+  title-leading: auto,
+  title-above: auto,
+  title-below: auto,
   fonts: (:),
   // 其他参数
   title: auto,
@@ -21,6 +21,7 @@
   body,
 ) = {
   fonts = 字体 + fonts
+  let is-graduate = doctype == "master" or doctype == "doctor"
   if title == auto {
     title = if english-writing {
       "Acknowledgements"
@@ -30,25 +31,41 @@
       "致　谢"
     }
   }
+  if title-leading == auto {
+    title-leading = preface-heading-leading
+  }
+  if title-above == auto {
+    title-above = if is-graduate { preface-heading-above } else { 0pt }
+  }
+  if title-below == auto {
+    title-below = if is-graduate { preface-heading-below } else { 0pt }
+  }
 
   if not anonymous {
     pagebreak(weak: true, to: if twoside { "odd" })
     [
       #set text(font: fonts.宋体, size: 字号.小四)
       #set par(
-        leading: if doctype == "bachelor" { leading } else { 0.9em },
-        spacing: if doctype == "bachelor" { spacing } else { 0pt },
+        leading: if doctype == "bachelor" { leading } else { preface-body-leading },
+        spacing: if doctype == "bachelor" { spacing } else { preface-body-spacing },
         justify: true,
-        first-line-indent: if doctype == "bachelor" { (amount: 26pt, all: true) } else { (amount: 2em, all: true) },
+        first-line-indent: if doctype == "bachelor" { (amount: 26pt, all: true) } else { preface-body-first-line-indent },
       )
 
-      // 使用统一的一级标题样式
-      #show heading.where(level: 1, numbering: none): it => preface-heading-style(
-        it,
-        fonts,
-        leading: title-leading,
-        below: title-below,
-      )
+      // 覆盖正文阶段遗留的 heading show 规则，避免无编号一级标题被重复叠加段前距
+      #show heading: it => {
+        if it.level == 1 and it.numbering == none {
+          preface-heading-style(
+            it,
+            fonts,
+            leading: title-leading,
+            above: 0pt,
+            below: title-below,
+          )
+        } else {
+          it
+        }
+      }
 
       #v(title-above)
       #heading(level: 1, numbering: none, outlined: outlined, title) <no-auto-pagebreak>

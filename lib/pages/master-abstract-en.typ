@@ -2,6 +2,7 @@
 #import "../utils/header.typ": header-render
 #import "../layouts/preface.typ": (
   preface-heading-above, preface-heading-below, preface-heading-size, preface-heading-weight,
+  preface-heading-leading, preface-body-leading, preface-body-spacing, preface-body-first-line-indent,
 )
 
 #let master-abstract-en(
@@ -40,11 +41,12 @@
 
 
   [
-    #set par(leading: leading, spacing: spacing, justify: true)
+    #set par(leading: preface-body-leading, spacing: preface-body-spacing, justify: true)
 
     // 英文摘要标题使用 Times New Roman，加粗，其他样式统一配置
     #show heading.where(level: 1): it => {
       set text(font: "Times New Roman", size: preface-heading-size, weight: "bold")
+      set par(leading: preface-heading-leading, spacing: 0pt)
       set block(above: 0pt, below: preface-heading-below)
       align(center, it)
     }
@@ -55,7 +57,7 @@
 
     #[
       #set text(font: "Times New Roman", size: 字号.小四)
-      #set par(first-line-indent: (amount: 2em, all: true))
+      #set par(first-line-indent: preface-body-first-line-indent)
       #body
     ]
 

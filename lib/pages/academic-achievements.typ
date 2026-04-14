@@ -1,5 +1,5 @@
 #import "../utils/style.typ": 字体, 字号
-#import "../layouts/preface.typ": preface-heading-style, preface-heading-above, preface-heading-below, preface-heading-font, preface-heading-size, preface-heading-weight
+#import "../layouts/preface.typ": preface-heading-style, preface-heading-above, preface-body-leading, preface-body-spacing, preface-body-first-line-indent
 
 // 西北工业大学研究生学术成果页
 #let academic-achievements(
@@ -26,10 +26,21 @@
     pagebreak(weak: true, to: if twoside { "odd" })
     [
       #set text(font: fonts.宋体, size: 字号.小四)
-      #set par(leading: 0.9em, justify: true)
+      #set par(
+        leading: preface-body-leading,
+        spacing: preface-body-spacing,
+        justify: true,
+        first-line-indent: preface-body-first-line-indent,
+      )
 
-      // 使用统一的一级标题样式
-      #show heading.where(level: 1, numbering: none): it => preface-heading-style(it, fonts)
+      // 覆盖正文阶段遗留的 heading show 规则，避免无编号一级标题被重复叠加段前距
+      #show heading: it => {
+        if it.level == 1 and it.numbering == none {
+          preface-heading-style(it, fonts)
+        } else {
+          it
+        }
+      }
 
       #v(preface-heading-above)
       #heading(level: 1, numbering: none, outlined: outlined, title) <no-auto-pagebreak>

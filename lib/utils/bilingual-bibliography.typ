@@ -1,10 +1,14 @@
 // Authors: csimide, OrangeX4
 // Tested only on GB-7714-2015-Numeric
+#import "../utils/style.typ": 字体, 字号
+#import "../layouts/preface.typ": preface-heading-style, preface-heading-above, preface-heading-below, preface-heading-leading, preface-body-leading, preface-body-spacing, preface-body-first-line-indent
+
 #let bilingual-bibliography(
   bibliography: none,
   doctype: "master",
   twoside: false,
   english-writing: false,
+  fonts: (:),
   title: auto,
   full: false,
   style: "gb-7714-2015-numeric",
@@ -21,7 +25,9 @@
   allow-comma-in-name: false,
   // 如果使用的 CSL 中，英文姓名中会出现逗号，请设置为 true
 ) = {
+  fonts = 字体 + fonts
   assert(bibliography != none, message: "请传入带有 source 的 bibliography 函数。")
+  let is-graduate = doctype == "master" or doctype == "doctor"
   if title == auto {
     title = if english-writing { "References" } else { "参考文献" }
   }
@@ -216,8 +222,21 @@
   }
 
   set text(lang: "zh")
+  if is-graduate {
+    set text(font: fonts.宋体, size: 字号.小四)
+    set par(leading: preface-body-leading, spacing: preface-body-spacing, justify: true, first-line-indent: preface-body-first-line-indent)
+    show heading.where(level: 1, numbering: none): it => preface-heading-style(
+      it,
+      fonts,
+      leading: preface-heading-leading,
+      above: 0pt,
+      below: preface-heading-below,
+    )
+    v(preface-heading-above)
+    heading(level: 1, numbering: none, outlined: true, title)
+  }
   bibliography(
-    title: title,
+    title: if is-graduate { none } else { title },
     full: full,
     style: style,
   )
