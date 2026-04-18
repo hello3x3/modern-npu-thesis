@@ -24,7 +24,7 @@
   spacing: auto,
   justify: true,
   first-line-indent: auto,
-  numbering: auto,
+  heading-numbering: auto,
   // 正文字体与字号参数
   text-args: auto,
   // 标题字体与字号
@@ -53,10 +53,6 @@
   caption-size: 字号.五号,
   // figure 计数
   show-figure: i-figured.show-figure.with(numbering: "1-1"),
-  // equation 计数
-  show-equation: i-figured.show-equation.with(
-    numbering: (..nums) => text(font: "Times New Roman")[#numbering("(1-1)", ..nums)],
-  ),
   ..args,
   it,
 ) = {
@@ -64,6 +60,15 @@
   fonts = 字体 + fonts
   let is-graduate = doctype == "master" or doctype == "doctor"
   let table-kinds = (table, "i-figured-table")
+  let show-equation-handler = if is-graduate {
+    i-figured.show-equation.with(
+      numbering: (..nums) => text(font: "Times New Roman")[#numbering("(1-1)", ..nums)],
+    )
+  } else {
+    i-figured.show-equation.with(
+      numbering: (..nums) => text(font: fonts.宋体)[（#text(font: "Times New Roman")[#numbering("1-1", ..nums)]）],
+    )
+  }
   let chinese_chapter_number(n) = {
     let digits = ("零", "一", "二", "三", "四", "五", "六", "七", "八", "九")
     if n <= 10 {
@@ -89,8 +94,8 @@
       (amount: 26pt, all: true)
     }
   }
-  if numbering == auto {
-    numbering = if english-writing {
+  if heading-numbering == auto {
+    heading-numbering = if english-writing {
       custom-numbering.with(
         first-level: n => [Chapter #n#h(0.7em)],
         depth: 4,
@@ -183,7 +188,7 @@
   show figure.where(kind: "i-figured-table"): set figure(supplement: if english-writing { [Table] } else { [表] })
   // 4.4 设置 equation 的编号和假段落首行缩进
   set math.equation(supplement: if english-writing { [Equation] } else { [式] })
-  show math.equation.where(block: true): show-equation
+  show math.equation.where(block: true): show-equation-handler
   // 4.5 表格表头置顶 + 不用冒号用空格分割 + 样式
   show figure.where(
     kind: table,
@@ -214,7 +219,7 @@
 
   // 5.  处理标题
   // 5.1 设置标题的 Numbering
-  set heading(numbering: numbering)
+  set heading(numbering: heading-numbering)
   // 5.2 设置字体、字号、换页及段前段后间距
   show heading: it => {
     if it.level == 1 {
