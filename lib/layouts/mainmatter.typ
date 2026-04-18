@@ -118,6 +118,7 @@
   if text-args == auto {
     text-args = (font: fonts.宋体, size: 字号.小四)
   }
+  let bachelor-figure-gap = text-args.at("size", default: 字号.小四) + leading
   // 1.1 字体与字号
   if heading-font == auto {
     heading-font = (fonts.黑体,)
@@ -182,7 +183,15 @@
   show footnote.entry: set text(font: fonts.宋体, size: 字号.五号)
   // 4.3 设置 figure 的编号
   show heading: i-figured.reset-counters
-  show figure: i-figured.show-figure.with(numbering: "1-1")
+  let figure-show-handler = i-figured.show-figure.with(numbering: "1-1")
+  show figure: it => {
+    let rendered = figure-show-handler(it)
+    if is-graduate {
+      rendered
+    } else {
+      block(above: bachelor-figure-gap, below: bachelor-figure-gap)[#rendered]
+    }
+  }
   set figure(supplement: if english-writing { [Figure] } else { [图] })
   show figure.where(kind: table): set figure(supplement: if english-writing { [Table] } else { [表] })
   show figure.where(kind: "i-figured-table"): set figure(supplement: if english-writing { [Table] } else { [表] })

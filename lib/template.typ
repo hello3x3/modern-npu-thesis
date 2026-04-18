@@ -25,6 +25,7 @@
 #import "utils/style.typ": 字体, 字号
 
 #let indent = h(2em)
+#let subfigure-caption(body) = text(size: 字号.五号)[#body]
 #let bachelor-first-level-value(value) = if type(value) == array {
   value.at(0, default: value.last())
 } else {

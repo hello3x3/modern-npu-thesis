@@ -1,4 +1,4 @@
-﻿#import "/template.typ": algorithm, algorithm-ref, bachelor-thesis-config, equation-note, nwpu-thesis
+﻿#import "/template.typ": algorithm, algorithm-ref, bachelor-thesis-config, equation-note, nwpu-thesis,subfigure-caption
 
 #let thesis-config = bachelor-thesis-config(
   title: ("基于 Typst 的西工大论文模板"),
@@ -103,11 +103,11 @@
       gutter: 1em,
       align(center)[
         #image("images/博士论文封面.jpg", width: 60%)
-        (a) 第一个子图说明
+        #subfigure-caption[(a) 第一个子图说明]
       ],
       align(center)[
         #image("images/博士论文封底.jpg", width: 60%)
-        (b) 第二个子图说明
+        #subfigure-caption[(b) 第二个子图说明]
       ],
     ),
     caption: [总图标题],

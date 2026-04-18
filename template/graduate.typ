@@ -1,4 +1,4 @@
-﻿#import "/template.typ": algorithm, algorithm-ref, equation-note, graduate-thesis-config, nwpu-thesis
+﻿#import "/template.typ": algorithm, algorithm-ref, equation-note, graduate-thesis-config, nwpu-thesis, subfigure-caption
 
 #let thesis-config = graduate-thesis-config(
   doctype: "master", // "master" | "doctor"，研究生论文类型
@@ -136,11 +136,11 @@
       gutter: 1em,
       align(center)[
         #image("images/博士论文封面.jpg", width: 60%)
-        (a) 第一个子图说明
+        #subfigure-caption[(a) 第一个子图说明]
       ],
       align(center)[
         #image("images/博士论文封底.jpg", width: 60%)
-        (b) 第二个子图说明
+        #subfigure-caption[(b) 第二个子图说明]
       ],
     ),
     caption: [总图标题],
@@ -153,20 +153,20 @@
       gutter: 1em,
       align(center)[
         #image("images/专硕论文封面.jpg", width: 50%)
-        (a) 第一个子图说明
+        #subfigure-caption[(a) 第一个子图说明]
       ],
       align(center)[
         #image("images/专硕论文封底.jpg", width: 50%)
-        (b) 第二个子图说明
+        #subfigure-caption[(b) 第二个子图说明]
       ],
 
       align(center)[
         #image("images/学硕论文封面.jpg", width: 50%)
-        (c) 第三个子图说明
+        #subfigure-caption[(c) 第三个子图说明]
       ],
       align(center)[
         #image("images/学硕论文封底.jpg", width: 50%)
-        (d) 第四个子图说明
+        #subfigure-caption[(d) 第四个子图说明]
       ],
     ),
     caption: [总图标题],
