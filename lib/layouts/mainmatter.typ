@@ -1,5 +1,5 @@
 #import "@preview/i-figured:0.2.4"
-#import "@preview/cap-able:0.0.1": captab-style
+#import "@preview/cap-able:0.0.1": captab-style, capfig-style
 #import "../utils/style.typ": 字体, 字号
 #import "../utils/custom-numbering.typ": custom-numbering
 #import "../utils/custom-heading.typ": active-heading, heading-display
@@ -195,8 +195,11 @@
   show heading: i-figured.reset-counters
   let figure-show-handler = i-figured.show-figure.with(numbering: "1-1")
   show figure: it => {
-    // 研究生跳过表格类 figure，由 cap-able 的 captab() 处理表格编号
-    if is-graduate and it.kind == table {
+    // 研究生跳过表格和图片类 figure，由 cap-able 处理编号
+    if is-graduate and (it.kind == table or it.kind == image) {
+      it
+    } else if it.kind == image {
+      // 本科图片也由 cap-able 的 capfig() 处理编号
       it
     } else {
       let rendered = figure-show-handler(it)
@@ -362,6 +365,22 @@
       number-title-spacing: [\u{3000}],
     )
   }
+
+  // 使用 cap-able 配置图片全局样式
+  show: capfig-style.with(
+    numbering-format: "1-1",
+    use-chapter: true,
+    supplement: "图",
+    caption-size: caption-size,
+    caption-weight: "regular",
+    enable-english-caption: false,
+    pre-supplement-number-spacing: 0em,
+    number-title-spacing: [\u{3000}],
+    show-subcaption: true,
+    show-subcaption-label: true,
+    label-style: "(a)",
+    gutter: 1em,
+  )
 
   it
 }

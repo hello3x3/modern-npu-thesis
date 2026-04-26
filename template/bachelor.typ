@@ -1,4 +1,4 @@
-﻿#import "/template.typ": algorithm, algorithm-ref, bachelor-thesis-config, equation-note, indent, nwpu-thesis, subfigure-caption
+﻿#import "/template.typ": algorithm, algorithm-ref, bachelor-thesis-config, capfig, capsubfig, equation-note, indent, nwpu-thesis
 #import "@preview/gb7714-bilingual:0.2.3": multicite
 
 #let thesis-config = bachelor-thesis-config(
@@ -54,7 +54,7 @@
 
   == 图表测试
 
-  引用@tbl:timing-tlt，以及@fig:test。引用图表时，表格和图片分别需要加上 `tbl:`和`fig:` 前缀才能正常显示编号。
+  引用@tbl:timing-tlt，以及@test。引用图表时，表格需要加上 `tbl:` 前缀；`capfig()` 创建的图片直接使用标签名。
 
   #figure(
     table(
@@ -88,28 +88,23 @@
     caption: [复杂表示例：聚合物基复合材料的性能],
   ) <composite-performance>
 
-  #figure(
+  #capfig(
     image("figures/博士论文封面.jpg", width: 45%),
     caption: [图片测试],
-  ) <test>
+    label: <test>,
+  )
 
   图片之间的文字
 
-  #figure(
-    grid(
-      columns: (1fr, 1fr),
-      gutter: 1em,
-      align(center)[
-        #image("figures/博士论文封面.jpg", width: 60%)
-        #subfigure-caption[(a) 第一个子图说明]
-      ],
-      align(center)[
-        #image("figures/博士论文封底.jpg", width: 60%)
-        #subfigure-caption[(b) 第二个子图说明]
-      ],
+  #capsubfig(
+    (
+      (content: image("figures/博士论文封面.jpg", width: 60%), subcaption: [第一个子图说明]),
+      (content: image("figures/博士论文封底.jpg", width: 60%), subcaption: [第二个子图说明]),
     ),
+    columns: 2,
     caption: [总图标题],
-  ) <fig-main>
+    label: <fig-main>,
+  )
 
   == 数学公式
 

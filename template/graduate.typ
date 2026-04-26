@@ -1,4 +1,4 @@
-﻿#import "/template.typ": algorithm, algorithm-ref, appendix, appendices, captab, equation-note, graduate-thesis-config, indent, nwpu-thesis, subfigure-caption
+﻿#import "/template.typ": algorithm, algorithm-ref, appendix, appendices, captab, capfig, capsubfig, equation-note, graduate-thesis-config, indent, nwpu-thesis
 #import "@preview/gb7714-bilingual:0.2.3": multicite
 
 #let thesis-config = graduate-thesis-config(
@@ -85,7 +85,7 @@
 
   == 图表测试
 
-  引用@timing-tlt，以及@fig:test。使用 `captab()` 创建三线表时，引用直接使用标签名；图片仍需 `fig:` 前缀。
+  引用@timing-tlt，以及@test。使用 `captab()` 创建三线表时，引用直接使用标签名；`capfig()` 同样直接使用标签名。
 
   #captab(
     caption: [三线表],
@@ -111,54 +111,35 @@
     | 拉伸强度，MPa  | 1500    | 40   | 1062      | 31   |
   ]
 
-  #figure(
+  #capfig(
     image("figures/博士论文封面.jpg", width: 45%),
     caption: [图片测试],
-  ) <test>
+    label: <test>,
+  )
 
   图片之间的文字
 
-  #figure(
-    grid(
-      columns: (1fr, 1fr),
-      gutter: 1em,
-      align(center)[
-        #image("figures/博士论文封面.jpg", width: 60%)
-        #subfigure-caption[(a) 第一个子图说明]
-      ],
-      align(center)[
-        #image("figures/博士论文封底.jpg", width: 60%)
-        #subfigure-caption[(b) 第二个子图说明]
-      ],
+  #capsubfig(
+    (
+      (content: image("figures/博士论文封面.jpg", width: 60%), subcaption: [第一个子图说明]),
+      (content: image("figures/博士论文封底.jpg", width: 60%), subcaption: [第二个子图说明]),
     ),
+    columns: 2,
     caption: [总图标题],
-  ) <fig-main>
+    label: <fig-main>,
+  )
 
-  #figure(
-    grid(
-      columns: (1fr, 1fr),
-      rows: (200pt, 200pt),
-      gutter: 1em,
-      align(center)[
-        #image("figures/专硕论文封面.jpg", width: 50%)
-        #subfigure-caption[(a) 第一个子图说明]
-      ],
-      align(center)[
-        #image("figures/专硕论文封底.jpg", width: 50%)
-        #subfigure-caption[(b) 第二个子图说明]
-      ],
-
-      align(center)[
-        #image("figures/学硕论文封面.jpg", width: 50%)
-        #subfigure-caption[(c) 第三个子图说明]
-      ],
-      align(center)[
-        #image("figures/学硕论文封底.jpg", width: 50%)
-        #subfigure-caption[(d) 第四个子图说明]
-      ],
+  #capsubfig(
+    (
+      (content: image("figures/专硕论文封面.jpg", width: 50%), subcaption: [第一个子图说明]),
+      (content: image("figures/专硕论文封底.jpg", width: 50%), subcaption: [第二个子图说明]),
+      (content: image("figures/学硕论文封面.jpg", width: 50%), subcaption: [第三个子图说明]),
+      (content: image("figures/学硕论文封底.jpg", width: 50%), subcaption: [第四个子图说明]),
     ),
+    columns: 2,
     caption: [总图标题],
-  ) <fig-main>
+    label: <fig-2x2>,
+  )
 
   == 数学公式
 
