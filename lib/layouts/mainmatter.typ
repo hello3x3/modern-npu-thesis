@@ -7,41 +7,28 @@
 #import "../utils/header.typ": bachelor-header-render, graduate-header-title, header-render
 #import "../format.typ": body-format, heading-format, caption-format, header-format, table-format
 
-// 一级标题间距，用于二级三级标题间距计算
-#let level1-heading-above = heading-format.graduate.above.first()
-#let level1-heading-below = heading-format.graduate.below.first()
 #let mainmatter(
   // documentclass 传入参数
   twoside: false,
   doctype: "bachelor",
   english-writing: false,
-  graduate-leading: body-format.graduate.leading,
-  graduate-spacing: body-format.graduate.spacing,
-  bachelor_leading: body-format.bachelor.leading,
-  bachelor_spacing: body-format.bachelor.spacing,
-  bachelor_heading_leading: heading-format.bachelor.leading,
-  bachelor_heading_above: heading-format.bachelor.above,
-  bachelor_heading_below: heading-format.bachelor.below,
   fonts: (:),
-  // 其他参数
-  leading: auto,
-  spacing: auto,
+  // 正文段落格式
+  leading: body-format.bachelor.leading,
+  spacing: body-format.bachelor.spacing,
   justify: true,
   first-line-indent: auto,
   heading-numbering: auto,
-  // 正文字体与字号参数
-  text-args: auto,
-  // 本科正文字体（统一控制参数）
-  body-font: auto,
-  body-size: auto,
+  // 正文字体与字号
+  body-font: 字体.宋体,
+  body-size: 字号.小四,
   // 标题字体与字号
   heading-font: auto,
   heading-size: (字号.三号, 字号.四号, 字号.小四),
   heading-weight: ("regular", "regular", "regular"),
-  heading_leading: auto,
-  // 一级标题使用统一配置，二三级保持原有值
-  heading-above: auto,
-  heading-below: auto,
+  heading_leading: heading-format.bachelor.leading,
+  heading-above: heading-format.bachelor.above,
+  heading-below: heading-format.bachelor.below,
   heading-pagebreak: (true, false, false),
   heading-align: (center, auto, auto),
   // 页眉
@@ -88,12 +75,6 @@
       digits.at(calc.floor(n / 10)) + "十" + digits.at(calc.rem(n, 10))
     }
   }
-  if leading == auto {
-    leading = if is-graduate { graduate-leading } else { bachelor_leading }
-  }
-  if spacing == auto {
-    spacing = if is-graduate { graduate-spacing } else { bachelor_spacing }
-  }
   if first-line-indent == auto {
     first-line-indent = if is-graduate {
       body-format.graduate.first-line-indent
@@ -122,36 +103,10 @@
       )
     }
   }
-  if text-args == auto {
-    if body-font == auto { body-font = fonts.宋体 }
-    if body-size == auto { body-size = 字号.小四 }
-    text-args = (font: body-font, size: body-size)
-  }
-  let bachelor-figure-gap = text-args.at("size", default: 字号.小四) + leading
+  let bachelor-figure-gap = body-size + leading
   // 1.1 字体与字号
   if heading-font == auto {
     heading-font = (fonts.黑体,)
-  }
-  if heading_leading == auto {
-    heading_leading = if is-graduate {
-      (graduate-leading, graduate-leading, graduate-leading)
-    } else {
-      bachelor_heading_leading
-    }
-  }
-  if heading-above == auto {
-    heading-above = if is-graduate {
-      (level1-heading-above, 2 * 15.6pt - 0.7em, 2 * 15.6pt - 0.7em)
-    } else {
-      bachelor_heading_above
-    }
-  }
-  if heading-below == auto {
-    heading-below = if is-graduate {
-      (level1-heading-below, 1.5 * 15.6pt - 0.7em, 1.5 * 15.6pt - 0.7em)
-    } else {
-      bachelor_heading_below
-    }
   }
 
   // 重置页码为阿拉伯数字从1开始（由调用方在正文开始位置处理 pagebreak 和 counter reset）
@@ -176,7 +131,7 @@
 
   // 4.  设置基本样式
   // 4.1 文本和段落样式
-  set text(..text-args)
+  set text(font: body-font, size: body-size)
   set par(
     leading: leading,
     justify: justify,

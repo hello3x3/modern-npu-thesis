@@ -2,9 +2,8 @@
 // 换页、标题样式、正文格式全部由 mainmatter 继承
 #let backmatter-page(
   title: auto,
-  outlined: true,
   body,
 ) = {
-  heading(level: 1, numbering: none, outlined: outlined, title)
+  heading(level: 1, numbering: none, outlined: true, title)
   body
 }

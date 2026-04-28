@@ -2,15 +2,9 @@
 
 // 研究生目录页
 #let graduate-outline(
-  // documentclass 传入参数
   english-writing: false,
-  // 其他参数
-  depth: 3,
   title: auto,
-  outlined: false,
-  // 目录条目缩进
   indent: (0pt, 24pt, 24pt),
-  // 默认引导符
   fill: auto,
   gap: .3em,
 ) = {
@@ -24,7 +18,7 @@
 
   [
     // 目录标题
-    #heading(level: 1, outlined: outlined, title)
+    #heading(level: 1, outlined: false, title)
 
     // 目录样式
     #set outline(indent: level => indent.slice(0, calc.min(level + 1, indent.len())).sum())
@@ -66,6 +60,6 @@
     }
 
     // 显示目录
-    #outline(title: none, depth: depth)
+    #outline(title: none, depth: 3)
   ]
 }

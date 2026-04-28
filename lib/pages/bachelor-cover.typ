@@ -5,7 +5,6 @@
 #let bachelor-cover(
   // documentclass 传入的参数
   anonymous: false,
-  twoside: false,
   info: (:),
   // 其他参数
   stroke-width: 0.5pt,

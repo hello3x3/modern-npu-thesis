@@ -74,13 +74,6 @@
   }
 }
 
-// ========== 命令行参数支持 ==========
-#let _parse-bool(value, default) = {
-  if value == none { default } else if value == "true" or value == "1" {
-    true
-  } else if value == "false" or value == "0" { false } else { default }
-}
-
 // 主配置函数
 #let nwpu-thesis(
   // 文档类型
@@ -142,11 +135,7 @@
     bibliography = default-bibliography(doctype)
   }
 
-  // 命令行参数覆盖
-  let anonymous = _parse-bool(sys.inputs.at("anonymous", default: none), anonymous)
   let effective_twoside = doctype != "bachelor"
-  let english-writing = _parse-bool(sys.inputs.at("english-writing", default: none), english-writing)
-  let colored-cover = _parse-bool(sys.inputs.at("colored-cover", default: none), colored-cover)
   let graduate-appendix-items = normalize-graduate-appendix-items(
     legacy-appendix: appendix,
     appendices: appendices,
@@ -198,53 +187,32 @@
       )
     },
     mainmatter: (..args) => {
-      if doctype == "master" or doctype == "doctor" {
-        mainmatter(
-          twoside: effective_twoside,
-          doctype: doctype,
-          english-writing: english-writing,
-          heading-pagebreak: (true, false, false),
-          graduate-leading: body-format.graduate.leading,
-          graduate-spacing: body-format.graduate.spacing,
-          heading_leading: heading-format.graduate.leading,
-          heading-above: heading-format.graduate.above,
-          heading-below: heading-format.graduate.below,
-          graduate_headsep: header-format.graduate.headsep,
-          graduate_headrule_offset: header-format.graduate.headrule-offset,
-          graduate_headrule_thick: header-format.graduate.headrule-thick,
-          graduate_headrule_thin: header-format.graduate.headrule-thin,
-          graduate_headrule_gap: header-format.graduate.headrule-gap,
-          display-header: true,
-          body-font: fonts.宋体,
-          body-size: 字号.小四,
-          ..args,
-          fonts: 字体 + args.named().at("fonts", default: (:)),
-        )
-      } else {
-        mainmatter(
-          twoside: effective_twoside,
-          doctype: doctype,
-          english-writing: english-writing,
-          heading-pagebreak: (true, false, false),
-          bachelor_leading: body-format.bachelor.leading,
-          bachelor_spacing: body-format.bachelor.spacing,
-          bachelor_heading_leading: heading-format.bachelor.leading,
-          bachelor_heading_above: heading-format.bachelor.above,
-          bachelor_heading_below: heading-format.bachelor.below,
-          display-header: true,
-          body-font: fonts.宋体,
-          body-size: 字号.小四,
-          ..args,
-          fonts: 字体 + args.named().at("fonts", default: (:)),
-        )
-      }
+      let is-graduate = doctype == "master" or doctype == "doctor"
+      mainmatter(
+        twoside: effective_twoside,
+        doctype: doctype,
+        english-writing: english-writing,
+        heading-pagebreak: (true, false, false),
+        leading: if is-graduate { body-format.graduate.leading } else { body-format.bachelor.leading },
+        spacing: if is-graduate { body-format.graduate.spacing } else { body-format.bachelor.spacing },
+        heading_leading: if is-graduate { heading-format.graduate.leading } else { heading-format.bachelor.leading },
+        heading-above: if is-graduate { heading-format.graduate.above } else { heading-format.bachelor.above },
+        heading-below: if is-graduate { heading-format.graduate.below } else { heading-format.bachelor.below },
+        graduate_headsep: header-format.graduate.headsep,
+        graduate_headrule_offset: header-format.graduate.headrule-offset,
+        graduate_headrule_thick: header-format.graduate.headrule-thick,
+        graduate_headrule_thin: header-format.graduate.headrule-thin,
+        graduate_headrule_gap: header-format.graduate.headrule-gap,
+        display-header: true,
+        ..args,
+      )
     },
     appendix: (..args) => {
       appendix-layout(
         twoside: effective_twoside,
         doctype: doctype,
         english-writing: english-writing,
-        body-font: fonts.宋体,
+        body-font: 字体.宋体,
         body-size: 字号.小四,
         leading: if doctype == "bachelor" { body-format.bachelor.leading } else { body-format.graduate.leading },
         spacing: if doctype == "bachelor" { body-format.bachelor.spacing } else { body-format.graduate.spacing },
@@ -265,7 +233,6 @@
       } else {
         bachelor-cover(
           anonymous: anonymous,
-          twoside: effective_twoside,
           ..args,
           info: info + args.named().at("info", default: (:)),
         )
@@ -391,7 +358,7 @@
       }
     }
 
-    #(cls.outline-page)(depth: 3)
+    #(cls.outline-page)()
 
     #if effective_twoside {
       pagebreak(weak: true, to: "odd")

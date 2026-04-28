@@ -2,16 +2,10 @@
 
 // 本科生目录页
 #let bachelor-outline(
-  // documentclass 传入参数
   english-writing: false,
-  // 其他参数
-  depth: 3,
   title: auto,
-  outlined: false,
-  // 目录条目缩进与粗体
   indent: (0pt, 24pt, 18pt),
   weight: auto,
-  // 默认引导符
   fill: auto,
   gap: .3em,
 ) = {
@@ -46,7 +40,7 @@
       set text(weight: "bold")
       it
     }
-    #heading(level: 1, outlined: outlined, title)
+    #heading(level: 1, outlined: false, title)
 
     // 目录样式
     #set par(spacing: 0pt)
@@ -101,6 +95,6 @@
     }
 
     // 显示目录
-    #outline(title: none, depth: depth)
+    #outline(title: none, depth: 3)
   ]
 }
