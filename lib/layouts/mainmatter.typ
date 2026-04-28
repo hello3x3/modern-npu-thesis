@@ -10,7 +10,6 @@
 // 一级标题间距，用于二级三级标题间距计算
 #let level1-heading-above = heading-format.graduate.above.first()
 #let level1-heading-below = heading-format.graduate.below.first()
-#let first-numbered-level1-seen = state("nwpu-first-numbered-level1-seen", false)
 #let mainmatter(
   // documentclass 传入参数
   twoside: false,
@@ -66,7 +65,6 @@
 ) = {
   // 1.  默认参数（提前初始化 fonts）
   fonts = 字体 + fonts
-  first-numbered-level1-seen.update(false)
   let is-graduate = doctype == "master" or doctype == "doctor"
   let table-kinds = (table, "i-figured-table")
   let show-equation-handler = if is-graduate {
@@ -262,14 +260,8 @@
 
     // 所有符合 heading-pagebreak 配置的一级标题统一换页（包括无编号标题）
     let needs-pagebreak = false
-    let is-first-numbered-level1 = it.level == 1 and it.numbering != none and not first-numbered-level1-seen.get()
-    if it.level == 1 and it.numbering != none {
-      first-numbered-level1-seen.update(true)
-    }
     if array-at(heading-pagebreak, it.level) {
-      let is-no-auto-pagebreak = "label" in it.fields() and str(it.label) == "no-auto-pagebreak"
-      let can-auto-pagebreak = (not is-no-auto-pagebreak) and (not is-first-numbered-level1)
-      if can-auto-pagebreak {
+      if "label" not in it.fields() or str(it.label) != "no-auto-pagebreak" {
         needs-pagebreak = true
       }
     }

@@ -113,6 +113,7 @@
       english-writing: english-writing,
       colored-cover: false,
       fonts: fonts,
+      heading-pagebreak: (true, false, false),
       info: (
         title: title,
         author: author,
@@ -287,6 +288,7 @@
   bachelor_heading_below: heading-format.bachelor.below, // 本科正文各级标题段后距
   bachelor_body_font: auto, // 本科正文字体，默认宋体
   bachelor_body_size: auto, // 本科正文字号，默认小四
+  heading-pagebreak: (true, false, false), // 各级标题是否换页
   colored-cover: false, // 是否开启彩色封面封底
   anonymous: false, // 盲审模式
   bibliography: none, // 传入 none 时按文档类型自动选择默认参考文献
@@ -414,6 +416,7 @@
           twoside: twoside,
           doctype: doctype,
           english-writing: english-writing,
+          heading-pagebreak: heading-pagebreak,
           graduate-leading: graduate_leading,
           graduate-spacing: graduate_spacing,
           heading_leading: graduate_heading_leading,
@@ -435,6 +438,7 @@
           twoside: twoside,
           doctype: doctype,
           english-writing: english-writing,
+          heading-pagebreak: heading-pagebreak,
           bachelor_leading: bachelor_leading,
           bachelor_spacing: bachelor_spacing,
           bachelor_heading_leading: bachelor_heading_leading,
@@ -599,6 +603,7 @@
   bachelor_heading_below: heading-format.bachelor.below,
   bachelor_body_font: auto,
   bachelor_body_size: auto,
+  heading-pagebreak: (true, false, false),
   colored-cover: false,
   anonymous: false,
   fonts: (:),
@@ -677,6 +682,7 @@
     bachelor_heading_below: bachelor_heading_below,
     bachelor_body_font: bachelor_body_font,
     bachelor_body_size: bachelor_body_size,
+    heading-pagebreak: heading-pagebreak,
     colored-cover: colored-cover,
     anonymous: anonymous,
     fonts: fonts,
@@ -718,13 +724,14 @@
     }
 
     #(cls.outline-page)(depth: outline-depth)
+
+    #if effective_twoside {
+      pagebreak(weak: true, to: "odd")
+    }
   ]
 
-  // 正文起始：换页 + 重置页码
+  [#metadata(none) <__nwpu_mainmatter_start__>]
   counter(page).update(1)
-  pagebreak(weak: true, to: if effective_twoside { "odd" })
-  counter(page).update(1)
-  [#box(width: 0pt, height: 0pt) <__nwpu_mainmatter_start__>]
 
   // 3. 正文
   with-english-writing(english-writing, body)

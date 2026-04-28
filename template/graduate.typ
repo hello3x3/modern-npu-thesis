@@ -1,4 +1,7 @@
-﻿#import "/template.typ": algorithm, algorithm-ref, appendix, appendices, captab, capfig, capsubfig, equation-note, graduate-thesis-config, indent, nwpu-thesis
+﻿#import "/template.typ": (
+  algorithm, algorithm-ref, appendices, appendix, capfig, capsubfig, captab, equation-note, graduate-thesis-config,
+  indent, nwpu-thesis,
+)
 #import "@preview/gb7714-bilingual:0.2.3": multicite
 
 #let thesis-config = graduate-thesis-config(
