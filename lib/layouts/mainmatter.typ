@@ -175,14 +175,11 @@
     show: captab-style.with(
       numbering-format: "1-1",
       use-chapter: true,
-      supplement: "表",
+      supplement: if english-writing { "Table" } else { "表" },
       caption-size: caption-size,
-      caption-weight: "regular",
       body-size: 字号.五号,
-      cell-inset: (x: 0.3em, y: 0.5em),
-      enable-english-caption: false,
-      pre-supplement-number-spacing: 0em,
-      number-title-spacing: [\u{3000}],
+      cell-inset: (x: 0.3em, y: 0.55em),
+      pre-supplement-number-spacing: if english-writing { 0.3em } else { 0em },
       middle-rule: (paint: black, thickness: 1pt),
     )
   }
@@ -191,16 +188,12 @@
   show: capfig-style.with(
     numbering-format: "1-1",
     use-chapter: true,
-    supplement: "图",
+    supplement: if english-writing { "Figure" } else { "图" },
     caption-size: caption-size,
-    caption-weight: "regular",
-    enable-english-caption: false,
-    pre-supplement-number-spacing: 0em,
-    number-title-spacing: [\u{3000}],
+    pre-supplement-number-spacing: if english-writing { 0.3em } else { 0em },
     show-subcaption: true,
     show-subcaption-label: true,
     label-style: "(a)",
-    gutter: 1em,
   )
 
   it
