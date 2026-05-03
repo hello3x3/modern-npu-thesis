@@ -12,22 +12,22 @@
     if anonymous { "████████" } else { body }
   }
 
-  v(2cm)
-  image("../../template/figures/nwpulogo.png", width: 8cm)
-  v(1cm)
-  text(size: 字号.小初, weight: "bold")[本科毕业设计（论文）]
-  v(5cm)
-  text(size: 字号.三号, font: 字体.黑体)[
+  v(72pt)
+  image("../../template/figures/nwpulogo.png", width: 9cm)
+  v(40pt)
+  text(size: 字号.初号, weight: "bold")[本科毕业设计（论文）]
+  v(150pt)
+  text(font: 字体.黑体, size: 字号.三号, weight: "bold")[
     #table(
-      columns: (2cm, 10cm),
+      columns: (2cm, 11cm),
       rows: 1.2cm,
       ..info-row(text()[题 目], [#info.title]),
     )
   ]
   text(size: 字号.四号)[
     #table(
-      columns: (2.2cm, 6cm),
-      rows: 2.2cm,
+      columns: (2.2cm, 6.5cm),
+      rows: 2.3cm,
       ..info-row([专业名称], info.major),
       ..info-row([学生姓名], mask-value(info.author)),
       ..info-row([指导教师], mask-value(info.supervisor.at(0))),

@@ -12,10 +12,6 @@
   anonymous: false,
   info: (:),
 ) = {
-  let defence-info-inset = (x: 0pt, bottom: 0pt)
-  let defence-info-key-width = 110pt
-  let defence-info-column-gutter = 2pt
-  let defence-info-row-gutter = 12pt
   let anonymous-info-keys = (
     "student-id",
     "author",
@@ -38,31 +34,6 @@
     } else {
       body
     }
-  }
-
-  let defence-info-key(body) = {
-    rect(
-      inset: defence-info-inset,
-      stroke: none,
-      text(size: 字号.三号, weight: "bold", body),
-    )
-  }
-
-  let defence-info-value(key, body, no-stroke: false) = {
-    rect(
-      width: 100%,
-      inset: defence-info-inset,
-      stroke: if no-stroke { none } else { (bottom: 0.5pt + black) },
-      text(
-        size: 字号.三号,
-        bottom-edge: "descender",
-        if anonymous and (key in anonymous-info-keys) {
-          "█████"
-        } else {
-          body
-        },
-      ),
-    )
   }
 
   // ========================================
@@ -265,20 +236,15 @@
   )
   v(79pt)
 
-  // 处理答辩日期
   let defence-date-display = datetime-display(info.defence-committee.date)
   let defence-committee = info.defence-committee
   let defence-members = {
     let entries = ()
-    if defence-committee.chairman != none {
-      entries.push((role: "主席", ..defence-committee.chairman))
-    }
+    entries.push((role: "主席", ..defence-committee.chairman))
     for m in defence-committee.members {
       entries.push((role: "委员", ..m))
     }
-    if defence-committee.secretary != none {
-      entries.push((role: "秘书", ..defence-committee.secretary))
-    }
+    entries.push((role: "秘书", ..defence-committee.secretary))
     entries
   }
 

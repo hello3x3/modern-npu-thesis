@@ -1,4 +1,4 @@
-#import "/template.typ": algorithm, algorithm-ref, capfig, capsubfig, equation-note, indent, multicite, nwpu-thesis
+#import "/template.typ": algorithm, algorithm-ref, capfig, capsubfig, captab, equation-note, indent, multicite, nwpu-thesis
 
 #show: nwpu-thesis.with(
   anonymous: false, // 是否开启盲审模式
@@ -58,39 +58,31 @@ XXX
 
 == 图表测试
 
-引用@tbl:timing-tlt，以及@test。引用图表时，表格需要加上 `tbl:` 前缀；`capfig()` 创建的图片直接使用标签名。
+引用@timing-tlt，以及@test。
 
-#figure(
-  table(
-    columns: (1fr, 1fr, 1fr, 1fr),
+#captab(
+  caption: [三线表],
+  label: <timing-tlt>,
+)[
+  | t   | 1    | 2    | 3    |
+  | --- | ---- | ---- | ---- |
+  | y   | 0.3s | 0.4s | 0.8s |
+]
 
-    table.hline(y: 0, stroke: 0.5pt),
-    table.header([t], [1], [2], [3]),
-    table.hline(y: 1, stroke: 0.5pt),
-    [y], [0.3s], [0.4s], [0.8s],
-    table.hline(y: 2, stroke: 0.5pt),
-  ),
-  caption: [表],
-) <timing-tlt>
-
-#figure(
-  table(
-    columns: (1.25fr, 1fr, 1fr, 1fr, 1fr),
-
-    table.hline(y: 0, stroke: 0.5pt),
-    table.cell(rowspan: 2)[材料],
-    table.cell(colspan: 2)[碳/环氧],
-    table.cell(colspan: 2)[玻璃/环氧],
-    table.hline(y: 1, start: 1, stroke: 0.5pt),
-    [纵向], [横向], [纵向], [横向],
-    table.hline(y: 2, stroke: 0.5pt),
-    [模量，GPa], [181], [10.3], [38.6], [8.3],
-    [压缩强度，MPa], [1500], [246], [610], [118],
-    [拉伸强度，MPa], [1500], [40], [1062], [31],
-    table.hline(y: 5, stroke: 0.5pt),
-  ),
+#captab(
   caption: [复杂表示例：聚合物基复合材料的性能],
-) <composite-performance>
+  label: <composite-performance>,
+  cols: (1.25fr, 1fr, 1fr, 1fr, 1fr),
+  hlines: (
+    (row: 2, stroke: 1pt),
+  ),
+)[
+  | 材料           | 碳/环氧 | <    | 玻璃/环氧 | <    |
+  | ^              | 纵向    | 横向 | 纵向      | 横向 |
+  | 模量，GPa      | 181     | 10.3 | 38.6      | 8.3  |
+  | 压缩强度，MPa  | 1500    | 246  | 610       | 118  |
+  | 拉伸强度，MPa  | 1500    | 40   | 1062      | 31   |
+]
 
 #capfig(
   image("figures/博士论文封面.jpg", width: 45%),

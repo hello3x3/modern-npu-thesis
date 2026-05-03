@@ -1,11 +1,10 @@
 #import "@preview/cap-able:0.0.2": captab-style, capfig-style
-#import "../utils/custom-numbering.typ": show-equation-handler, figure-show-rule
+#import "../utils/custom-numbering.typ": show-equation-handler
 
 // 附录布局
 #let appendix(
   doctype: "bachelor",
   english-writing: false,
-  leading: 0pt,
   it,
 ) = {
   let appendix-label = if english-writing {
@@ -32,9 +31,8 @@
 
   let is-graduate = doctype == "graduate"
 
-  show: captab-style.with(numbering-format: "A-1", use-chapter: true)
-  show: capfig-style.with(numbering-format: "A-1", use-chapter: true)
-  show figure: figure-show-rule("A-1", is-graduate, leading)
+  show: captab-style.with(numbering-format: "A-1")
+  show: capfig-style.with(numbering-format: "A-1")
   show math.equation.where(block: true): show-equation-handler("A-1", is-graduate)
 
   it

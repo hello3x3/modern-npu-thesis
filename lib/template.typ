@@ -133,7 +133,6 @@
 
   // 3. mainmatter 包裹所有后续内容（前置 + 正文 + 后置）
   show: mainmatter.with(
-    twoside: is-graduate,
     doctype: doctype,
     english-writing: english-writing,
     leading: if is-graduate { body-format.graduate.leading } else { body-format.bachelor.leading },
@@ -161,7 +160,6 @@
     graduate_headrule_thick: header-format.graduate.headrule-thick,
     graduate_headrule_thin: header-format.graduate.headrule-thin,
     graduate_headrule_gap: header-format.graduate.headrule-gap,
-    display-header: true,
   )
 
   // 4. 前置部分（摘要、目录）
@@ -248,7 +246,6 @@
       show: appendix-layout.with(
         doctype: doctype,
         english-writing: english-writing,
-        leading: body-format.graduate.leading,
       )
       [
         #heading(level: 1)[]
@@ -284,7 +281,6 @@
       show: appendix-layout.with(
         doctype: doctype,
         english-writing: english-writing,
-        leading: body-format.bachelor.leading,
       )
       [
         #heading(level: 1)[]

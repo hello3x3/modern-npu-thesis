@@ -14,20 +14,3 @@
   }
 }
 
-// figure 编号与排版处理
-// 图片和研究生表格由 cap-able 处理，其余由 i-figured 编号
-// 本科额外添加上下间距
-#let figure-show-rule(prefix, is-graduate, leading) = it => {
-  let bachelor-figure-gap = 字号.小四 + leading
-  let handler = i-figured.show-figure.with(numbering: prefix)
-  if it.kind == image or (is-graduate and it.kind == table) {
-    it
-  } else {
-    let rendered = handler(it)
-    if is-graduate {
-      rendered
-    } else {
-      block(above: bachelor-figure-gap, below: bachelor-figure-gap)[#rendered]
-    }
-  }
-}
