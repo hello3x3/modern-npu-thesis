@@ -53,7 +53,7 @@
     $ phi.alt := (1 + sqrt(5)) / 2 $ <rat>
 
     #capfig(
-      image("figures/博士论文封面.jpg", width: 45%),
+      image("figures/example.jpg", width: 45%),
       caption: [图片测试],
       label: <test11>,
     )
@@ -64,7 +64,7 @@
     $ phi.alt := (1 + sqrt(5)) / 2 $ <ra>
 
     #capfig(
-      image("figures/博士论文封面.jpg", width: 45%),
+      image("figures/example.jpg", width: 45%),
       caption: [图片测试],
       label: <test111>,
     )
@@ -75,7 +75,7 @@
   academic-achievements: [
     不同类型的成果列表书写格式与参考文献相同。对于学术论文，如已发表的被EI或SCI收录，应标明收录号；SCI论文一般应标注发表当年的影响因子；对已录用但尚未发表的学术论文，请注明是否EI或SCI刊源。
   ],
-  scan-declaration: image("figures/声明.pdf"),
+  scan-declaration: image("figures/签字版声明.pdf"),
 )
 
 = 绪论
@@ -127,7 +127,7 @@ XXX
 ]
 
 #capfig(
-  image("figures/博士论文封面.jpg", width: 45%),
+  image("figures/example.jpg", width: 45%),
   caption: [图片测试],
   label: <test>,
 )
@@ -136,8 +136,8 @@ XXX
 
 #capsubfig(
   (
-    (content: image("figures/博士论文封面.jpg", width: 60%), subcaption: [第一个子图说明]),
-    (content: image("figures/博士论文封底.jpg", width: 60%), subcaption: [第二个子图说明]),
+    (content: image("figures/example.jpg", width: 60%), subcaption: [第一个子图说明]),
+    (content: image("figures/example.jpg", width: 60%), subcaption: [第二个子图说明]),
   ),
   columns: 2,
   caption: [总图标题],
@@ -146,10 +146,10 @@ XXX
 
 #capsubfig(
   (
-    (content: image("figures/专硕论文封面.jpg", width: 50%), subcaption: [第一个子图说明]),
-    (content: image("figures/专硕论文封底.jpg", width: 50%), subcaption: [第二个子图说明]),
-    (content: image("figures/学硕论文封面.jpg", width: 50%), subcaption: [第三个子图说明]),
-    (content: image("figures/学硕论文封底.jpg", width: 50%), subcaption: [第四个子图说明]),
+    (content: image("figures/example.jpg", width: 50%), subcaption: [第一个子图说明]),
+    (content: image("figures/example.jpg", width: 50%), subcaption: [第二个子图说明]),
+    (content: image("figures/example.jpg", width: 50%), subcaption: [第三个子图说明]),
+    (content: image("figures/example.jpg", width: 50%), subcaption: [第四个子图说明]),
   ),
   columns: 2,
   caption: [总图标题],
@@ -214,7 +214,7 @@ $ E = m c^2 $
 方法概述内容。
 
 #capfig(
-  image("figures/博士论文封面.jpg", width: 45%),
+  image("figures/example.jpg", width: 45%),
   caption: [图片测试],
   label: <test1>,
 )

@@ -23,7 +23,7 @@
     == Test
     附录内容……
     #capfig(
-      image("figures/博士论文封面.jpg", width: 45%),
+      image("figures/example.jpg", width: 45%),
       caption: [图片测试],
       label: <test1>,
     )
@@ -85,7 +85,7 @@ XXX
 ]
 
 #capfig(
-  image("figures/博士论文封面.jpg", width: 45%),
+  image("figures/example.jpg", width: 45%),
   caption: [图片测试],
   label: <test>,
 )
@@ -94,8 +94,8 @@ XXX
 
 #capsubfig(
   (
-    (content: image("figures/博士论文封面.jpg", width: 60%), subcaption: [第一个子图说明]),
-    (content: image("figures/博士论文封底.jpg", width: 60%), subcaption: [第二个子图说明]),
+    (content: image("figures/example.jpg", width: 60%), subcaption: [第一个子图说明]),
+    (content: image("figures/example.jpg", width: 60%), subcaption: [第二个子图说明]),
   ),
   columns: 2,
   caption: [总图标题],

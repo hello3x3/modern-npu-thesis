@@ -43,11 +43,11 @@
   let bg = none
   if colored-cover {
     let cover-image-path = if degree == "doctor" {
-      "../../template/figures/博士论文封面.jpg"
+      "../assets/博士论文封面.jpg"
     } else if track == "professional" {
-      "../../template/figures/专硕论文封面.jpg"
+      "../assets/专硕论文封面.jpg"
     } else {
-      "../../template/figures/学硕论文封面.jpg"
+      "../assets/学硕论文封面.jpg"
     }
     bg = image(cover-image-path, width: 100%, height: 100%)
   }

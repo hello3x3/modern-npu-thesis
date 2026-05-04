@@ -51,7 +51,7 @@
   [
     #set par(leading: 0pt, spacing: 0pt)
     #pad(left: offset)[
-      #image("../../template/figures/nwpuheader.png", width: 7.5cm)
+      #image("../assets/nwpuheader.png", width: 7.5cm)
     ]
     #v(header-format.bachelor.headsep)
     #line(length: 100%, stroke: header-format.bachelor.headrule + black)
