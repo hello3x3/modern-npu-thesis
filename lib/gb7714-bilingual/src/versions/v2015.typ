@@ -10,6 +10,7 @@
     colon: ": ",
     lparen: "(",
     rparen: ")",
+    period: ".",
   ),
   // 作者格式化规则
   author-format: (

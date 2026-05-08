@@ -129,7 +129,7 @@
     )
   }
 
-  show: init-gb7714.with(read(bibliography), style: "numeric", version: "2025")
+  show: init-gb7714.with(read(bibliography), style: "numeric", version: "2025", zh-period: if not graduate { "．" }, zh-colon: if not graduate { "： " }, zh-comma: if not graduate { "，" }, en-family-titlecase: not graduate)
 
   // 3. mainmatter 包裹所有后续内容（前置 + 正文 + 后置）
   show: mainmatter.with(

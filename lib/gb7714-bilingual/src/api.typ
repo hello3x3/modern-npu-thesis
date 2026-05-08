@@ -35,6 +35,10 @@
   show-accessed: true,
   cn-first: true,
   pinyin-override: (:),
+  zh-period: none,
+  zh-colon: none,
+  zh-comma: none,
+  en-family-titlecase: false,
   doc,
 ) = {
   // 加载 bib 数据
@@ -50,6 +54,10 @@
     show-url: show-url,
     show-doi: show-doi,
     show-accessed: show-accessed,
+    zh-period: zh-period,
+    zh-colon: zh-colon,
+    zh-comma: zh-comma,
+    en-family-titlecase: en-family-titlecase,
   ))
   _cn-first.update(cn-first)
   _pinyin-override.update(pinyin-override)

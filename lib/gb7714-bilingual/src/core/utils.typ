@@ -16,13 +16,15 @@
 }
 
 // 智能连接：避免 "et al.." 等双标点问题
-#let smart-join(parts, sep: ". ", trailing: ".") = {
+#let smart-join(parts, period: ".") = {
+  let sep = period + " "
+  let trailing = period
   (
     parts
       .map(p => {
         if (
           type(p) == str
-            and (p.ends-with(".") or p.ends-with(",") or p.ends-with(";"))
+            and (p.ends-with(".") or p.ends-with("．") or p.ends-with(",") or p.ends-with(", ") or p.ends-with(";"))
         ) {
           p.slice(0, -1)
         } else {
@@ -39,6 +41,7 @@
   result,
   entry,
   config: (show-url: true, show-doi: true, show-accessed: true),
+  period: ".",
 ) = {
   let f = entry.at("fields", default: (:))
   let url = f.at("url", default: "")
@@ -51,7 +54,7 @@
     if accessed != "" {
       // 移除末尾句号以便添加访问日期
       if type(mut) == str {
-        mut = mut.trim(".") + accessed + "."
+        mut = mut.trim(period) + accessed + period
       } else {
         mut = [#mut #accessed]
       }
@@ -60,8 +63,8 @@
 
   // 确保有结尾句号
   if type(mut) == str {
-    if not mut.ends-with(".") {
-      mut += "."
+    if not mut.ends-with(period) {
+      mut += period
     }
   }
 
@@ -69,7 +72,7 @@
   if config.show-url and url != "" {
     let url-link = link(url, url)
     if type(mut) == str {
-      mut += " " + url-link + "."
+      mut += " " + url-link + period
     } else {
       mut = [#mut #url-link]
     }
@@ -79,7 +82,7 @@
   if config.show-doi and doi != "" {
     let doi-link = link("https://doi.org/" + doi, [DOI: #doi])
     if type(mut) == str {
-      mut += " " + doi-link + "."
+      mut += " " + doi-link + period
     } else {
       mut = [#mut #doi-link]
     }
@@ -237,8 +240,8 @@
   parts += content-parts
 
   // 3. 组装并添加访问信息
-  let result = smart-join(parts)
-  append-access-info(result, entry, config: config)
+  let result = smart-join(parts, period: punct.at("period", default: "."))
+  append-access-info(result, entry, config: config, period: punct.at("period", default: "."))
 }
 
 /// 简单类型渲染器（适用于结构简单的类型）

@@ -2,6 +2,7 @@
 
 #import "v2015.typ": config-2015
 #import "v2025.typ": config-2025
+#import "../core/state.typ": _config
 
 // 版本 -> 配置映射
 #let _configs = (
@@ -30,12 +31,26 @@
   get-version-config(version).citation
 }
 
-/// 获取标点符号配置（英文条目使用半角括号）
+/// 获取标点符号配置
+/// 可通过 init-gb7714 的 zh-period / zh-colon 参数覆盖中文标点
 #let get-punctuation(version, lang) = {
   let punct = get-version-config(version).punctuation
   if lang == "en" {
-    punct.insert("lparen", "(")
-    punct.insert("rparen", ")")
+    punct.insert("period", ".")
+  } else if lang == "zh" {
+    let cfg = _config.get()
+    let zh-period = cfg.at("zh-period", default: none)
+    if zh-period != none {
+      punct.insert("period", zh-period)
+    }
+    let zh-colon = cfg.at("zh-colon", default: none)
+    if zh-colon != none {
+      punct.insert("colon", zh-colon)
+    }
+    let zh-comma = cfg.at("zh-comma", default: none)
+    if zh-comma != none {
+      punct.insert("comma", zh-comma)
+    }
   }
   punct
 }

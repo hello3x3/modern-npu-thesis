@@ -17,7 +17,7 @@
   )
 }
 
-#let render-custom-patent(entry) = {
+#let render-custom-patent(entry, punct) = {
   let fields = entry.fields
   let owner = format-authors(entry.parsed-names, entry.lang)
   let title = fields.at("title", default: "")
@@ -27,27 +27,27 @@
 
   let body = []
   if owner != "" {
-    body += [#owner. ]
+    body += [#owner#punct.period ]
   }
   body += [#title]
-  body += [[P]. ]
+  body += [[P]#punct.period ]
   if country != "" {
-    body += [#country: ]
+    body += [#country#punct.colon]
   }
   if patent-number != "" {
     body += [#patent-number]
   }
   if patent-number != "" and publish-date != "" {
-    body += [, ]
+    body += [#punct.comma]
   }
   if publish-date != "" {
     body += [#publish-date]
   }
-  body += [. #entry.ref-label]
+  body += [#punct.period #entry.ref-label]
   body
 }
 
-#let render-custom-conference(entry, graduate: false) = {
+#let render-custom-conference(entry, graduate: false, punct) = {
   let fields = entry.fields
   let lang = entry.lang
   let author = format-authors(entry.parsed-names, lang)
@@ -60,52 +60,50 @@
   let year = str(fields.at("year", default: fields.at("date", default: "")))
   let pages = str(fields.at("pages", default: "")).replace("--", "-")
   let in-prefix = if lang == "zh" { "见：" } else { "In: " }
-  let pub-sep = if lang == "zh" { "：" } else { ": " }
-  let year-sep = if lang == "zh" { "，" } else { ", " }
 
   let body = []
   if author != "" {
-    body += [#author. ]
+    body += [#author#punct.period ]
   }
   body += [#title]
   if graduate {
-    body += [[C]. ]
+    body += [[C]#punct.period ]
   } else {
-    body += [[A]. ]
+    body += [[A]#punct.period ]
     body += [#in-prefix]
     if editor != "" {
-      body += [#editor. ]
+      body += [#editor#punct.period ]
     }
     if proceedings-title != "" {
       body += [#proceedings-title]
-      body += [[C]. ]
+      body += [[C]#punct.period ]
     }
   }
   if location != "" {
-    body += [#location#pub-sep]
+    body += [#location#punct.colon]
   }
   if publisher != "" {
     body += [#publisher]
   }
   if publisher != "" and year != "" {
-    body += [#year-sep]
+    body += [#punct.comma]
   }
   if year != "" {
     body += [#year]
   }
   if pages != "" {
     if graduate {
-      body += [: #pages. #entry.ref-label]
+      body += [#punct.colon #pages#punct.period #entry.ref-label]
     } else {
-      body += [. #pages. #entry.ref-label]
+      body += [#punct.period #pages#punct.period #entry.ref-label]
     }
   } else {
-    body += [. #entry.ref-label]
+    body += [#punct.period #entry.ref-label]
   }
   body
 }
 
-#let render-custom-other(entry) = {
+#let render-custom-other(entry, punct) = {
   let fields = entry.fields
   let lang = entry.lang
   let author = format-authors(entry.parsed-names, entry.lang)
@@ -116,29 +114,29 @@
 
   let body = []
   if author != "" {
-    body += [#author. ]
+    body += [#author#punct.period ]
   }
   if title != "" {
-    body += [#title. ]
+    body += [#title#punct.period ]
   }
   if publish-date != "" {
     body += [#publish-date]
     if cited-date != "" {
       body += [/#cited-date]
     }
-    body += [. ]
+    body += [#punct.period ]
   } else if cited-date != "" {
-    body += [/#cited-date. ]
+    body += [/#cited-date#punct.period ]
   }
   if url != "" {
-    body += [#url. #entry.ref-label]
+    body += [#url#punct.period #entry.ref-label]
   } else {
     body += [#entry.ref-label]
   }
   body
 }
 
-#let render-custom-standard(entry) = {
+#let render-custom-standard(entry, punct) = {
   let fields = entry.fields
   let lang = entry.lang
   let drafter = format-authors(entry.parsed-names, lang, allow-anonymous: false)
@@ -150,43 +148,43 @@
 
   let body = []
   if drafter != "" {
-    body += [#drafter. ]
+    body += [#drafter#punct.period ]
   }
   if standard-number != "" and title != "" {
-    body += [#(standard-number + "，" + str(title))]
+    body += [#(standard-number + punct.comma + str(title))]
   } else if standard-number != "" {
     body += [#standard-number]
   } else if title != "" {
     body += [#title]
   }
   if location == "" and publisher == "" and year == "" {
-    body += [[S]. #entry.ref-label]
+    body += [[S]#punct.period #entry.ref-label]
     return body
   }
 
-  body += [[S]. ]
+  body += [[S]#punct.period ]
   if location != "" {
     body += [#location]
     if publisher != "" {
-      body += [：]
+      body += [#punct.colon]
     } else if year != "" {
-      body += [，]
+      body += [#punct.comma]
     } else {
-      body += [. #entry.ref-label]
+      body += [#punct.period #entry.ref-label]
       return body
     }
   }
   if publisher != "" {
     body += [#publisher]
     if year != "" {
-      body += [，]
+      body += [#punct.comma]
     } else {
-      body += [. #entry.ref-label]
+      body += [#punct.period #entry.ref-label]
       return body
     }
   }
   if year != "" {
-    body += [#year. #entry.ref-label]
+    body += [#year#punct.period #entry.ref-label]
   } else {
     body += [#entry.ref-label]
   }
@@ -214,14 +212,19 @@
         first-line-indent: if graduate { (amount: 2em, all: true) } else { (amount: 0em, all: true) },
       )
       for entry in entries {
+        let punct = if graduate or entry.lang == "en" {
+          (period: ".", comma: ", ", colon: ": ")
+        } else {
+          (period: "．", comma: "，", colon: "：")
+        }
         if entry.entry-type == "patent" {
-          [[#entry.order]#h(0.5em)#render-custom-patent(entry)]
+          [[#entry.order]#h(0.5em)#render-custom-patent(entry, punct)]
         } else if entry.entry-type == "inproceedings" or entry.entry-type == "conference" {
-          [[#entry.order]#h(0.5em)#render-custom-conference(entry, graduate: graduate)]
+          [[#entry.order]#h(0.5em)#render-custom-conference(entry, graduate: graduate, punct)]
         } else if is-other-entry(entry) {
-          [[#entry.order]#h(0.5em)#render-custom-other(entry)]
+          [[#entry.order]#h(0.5em)#render-custom-other(entry, punct)]
         } else if entry.entry-type == "standard" {
-          [[#entry.order]#h(0.5em)#render-custom-standard(entry)]
+          [[#entry.order]#h(0.5em)#render-custom-standard(entry, punct)]
         } else {
           [[#entry.order]#h(0.5em)#entry.labeled-rendered]
         }

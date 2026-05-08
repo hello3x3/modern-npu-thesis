@@ -45,6 +45,10 @@
   show-accessed: true,
   cn-first: true,
   pinyin-override: (:),
+  zh-period: none,
+  zh-colon: none,
+  zh-comma: none,
+  en-family-titlecase: false,
   doc,
 ) = {
   // 调用内部实现
@@ -57,6 +61,10 @@
     show-accessed: show-accessed,
     cn-first: cn-first,
     pinyin-override: pinyin-override,
+    zh-period: zh-period,
+    zh-colon: zh-colon,
+    zh-comma: zh-comma,
+    en-family-titlecase: en-family-titlecase,
     doc,
   )
 }
