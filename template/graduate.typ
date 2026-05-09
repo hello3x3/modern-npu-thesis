@@ -123,7 +123,6 @@
 #captab(
   caption: [复杂三线表示例：聚合物基复合材料的性能],
   label: <composite-performance>,
-  cols: (1.25fr, 1fr, 1fr, 1fr, 1fr),
   hlines: (
     (row: 2, stroke: 1pt),
   ),

@@ -110,16 +110,14 @@
 
   // 表格样式
   show table: set par(justify: false)
-  set table(stroke: 0.5pt + black, align: center + horizon)
-
-  if graduate { set-table-width(percentage: 100) }
+  set table(stroke: if graduate { 1pt } else { 0.5pt }, align: center + horizon)
 
   // 表格独有配置
   show: captab-style.with(
     three-line-table: if graduate { true } else { false },
     supplement: if english-writing { "Table" } else { "表" },
     body-size: caption-format.size,
-    cell-inset: (x: 1em, y: if graduate { 0.55em } else { 0.7em }),
+    cell-inset: (x: if graduate { 0.5em } else { 0.8em }, y: if graduate { 0.55em } else { 0.7em }),
     middle-rule: 1pt,
     caption-text: if graduate { (font: 字体.宋体) } else { (font: 字体.黑体) },
     caption-below: if graduate { auto } else { 10pt },
@@ -127,6 +125,7 @@
     caption-above: if graduate { auto } else { 20pt },
     breakable: false,
     continued-caption: true,
+    width: if graduate {100%} else {auto}
   )
   // 图片独有配置
   show: capfig-style.with(
