@@ -123,9 +123,7 @@
 #captab(
   caption: [复杂三线表示例：聚合物基复合材料的性能],
   label: <composite-performance>,
-  hlines: (
-    (row: 2, stroke: 1pt),
-  ),
+  hlines: (2,),
 )[
   | 材料           | 碳/环氧 | <    | 玻璃/环氧 | <    |
   | ^              | 纵向    | 横向 | 纵向      | 横向 |

@@ -127,6 +127,7 @@
     continued-caption: true,
     width: if graduate {100%} else {auto},
     number-title-spacing: if graduate { auto } else { 0.5em },
+    extra-rule: if graduate {1pt} else {0.5pt}
   )
   // 图片独有配置
   show: capfig-style.with(
