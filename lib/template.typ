@@ -50,8 +50,6 @@
   department: "某学院",
   major-en: "XX",
   supervisor-en: "Li Si",
-  secret-level: "公开",
-  school-code: "10699",
   reviewers: (
     (name: "", title: "", unit: ""),
   ),
@@ -77,7 +75,6 @@
   scan-declaration: none,
   design_summary: none,
   bibliography: none,
-  info: (:),
   // 文档正文
   body,
 ) = {
@@ -86,27 +83,21 @@
   }
 
   // 默认参数
-  info = (
-    (
-      title: title,
-      title-en: title-en,
-      student-id: student-id,
-      class-no: class-no,
-      author: author,
-      author-en: author-en,
-      department: department,
-      major: major,
-      major-en: major-en,
-      supervisor: supervisor,
-      supervisor-en: supervisor-en,
-      submit-date: submit-date,
-      secret-level: secret-level,
-      school-code: school-code,
-      degree: if degree == "doctor" { "工学博士" } else { "工学硕士" },
-      reviewers: reviewers,
-      defence-committee: defence-committee,
-    )
-      + info
+  let info = (
+    title: title,
+    title-en: title-en,
+    student-id: student-id,
+    class-no: class-no,
+    author: author,
+    author-en: author-en,
+    department: department,
+    major: major,
+    major-en: major-en,
+    supervisor: supervisor,
+    supervisor-en: supervisor-en,
+    submit-date: submit-date,
+    reviewers: reviewers,
+    defence-committee: defence-committee,
   )
 
   // 1. 文稿设置

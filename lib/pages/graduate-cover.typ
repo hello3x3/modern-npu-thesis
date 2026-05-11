@@ -52,9 +52,9 @@
       rows: 0.55cm,
       stroke: 0.5pt,
       inset: (x: 8pt, y: 3pt),
-      [#distribute[学校代码]], [#info.school-code],
+      [#distribute[学校代码]], [10699],
       [#distribute[分类号]], [#info.class-no],
-      [#distribute[密级]], [#info.secret-level],
+      [#distribute[密级]], [公开],
       [#distribute[学号]], [#anonymous-text("student-id", info.student-id)],
     )
   ]
