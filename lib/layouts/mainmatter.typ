@@ -119,7 +119,7 @@
     body-size: caption-format.size,
     cell-inset: (x: if graduate { 0.5em } else { 0.8em }, y: if graduate { 0.55em } else { 0.7em }),
     middle-rule: 1pt,
-    caption-text: if graduate { (font: 字体.宋体) } else { (font: 字体.黑体) },
+    caption-text: if graduate { (font: 字体.宋体) } else { (font: 字体.纯黑体) },
     caption-below: if graduate { auto } else { 10pt },
     table-below: if graduate { leading } else { 20pt },
     caption-above: if graduate { auto } else { 20pt },
@@ -131,7 +131,6 @@
   show: capfig-style.with(
     supplement: if english-writing { "Figure" } else { "图" },
     show-subcaption: true,
-    show-subcaption-label: true,
     label-style: "（a）",
     subcaption-number-title-spacing: 0pt,
     caption-above: 0pt,

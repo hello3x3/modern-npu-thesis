@@ -24,4 +24,5 @@
     (name: "Times New Roman", covers: "latin-in-cjk"),
     "SimHei",
   ),
+  纯黑体: ("SimHei",),
 )
