@@ -138,7 +138,7 @@
         } else if graduate {
           [第 #nums.at(0) 章#h(0.7em)]
         } else {
-          [第#chinese-chapter-number(nums.at(0))章　]
+          [第#chinese-chapter-number(nums.at(0))章#h(0.7em)]
         }
       } else if nums.len() <= 3 {
         numbering("1.1", ..nums)
@@ -160,7 +160,7 @@
           keyword-label: "关键词",
           keyword-sep: "，",
           keyword-indent: false,
-          outline-title: "摘 要",
+          outline-title: [摘#h(0.7em)要],
           outlined: false,
           funding: none,
         )[#abstract]
@@ -193,10 +193,10 @@
     }
 
     #if graduate {
-      outline-page(title: if english-writing { "Contents" } else { "目　录" })
+      outline-page(title: if english-writing { "Contents" } else { [目#h(0.7em)录] })
     } else {
       outline-page(
-        title: if english-writing { "Contents" } else { "目 录" },
+        title: if english-writing { "Contents" } else { [目#h(0.7em)录] },
         indent: (0pt, 24pt, 18pt),
         weight: ("bold", "regular", "regular"),
         fill: (repeat([#move(dy: -0.1em, text(size: 0.4em)[·])], gap: -0.1em),),
@@ -237,7 +237,7 @@
     }
 
     if acknowledgement != none {
-      backmatter-page(title: if english-writing { "Acknowledgements" } else { "致　谢" })[#acknowledgement]
+      backmatter-page(title: if english-writing { "Acknowledgements" } else { [致#h(0.7em)谢] })[#acknowledgement]
     }
 
     if academic-achievements != none {
@@ -251,7 +251,7 @@
     }
   } else {
     if acknowledgement != none {
-      backmatter-page(title: if english-writing { "Acknowledgements" } else { "致 谢" })[#acknowledgement]
+      backmatter-page(title: if english-writing { "Acknowledgements" } else { [致#h(0.7em)谢] })[#acknowledgement]
     }
 
     if design_summary != none {

@@ -9,7 +9,7 @@
   keyword-weight: "regular",
   keyword-sep: "；",
   keyword-indent: true,
-  outline-title: "摘　要",
+  outline-title: [摘#h(0.7em)要],
   title: none,
   outlined: true,
   funding: none,

@@ -28,8 +28,8 @@
     spacing: 12pt,
   ),
   bachelor: (
-    leading: 11pt,
-    spacing: 11pt,
+    leading: 12pt,
+    spacing: 12pt,
   ),
 )
 
@@ -44,7 +44,7 @@
     below: (16pt, 0pt, 0pt),
   ),
   bachelor: (
-    above: (16pt, 0pt, 0pt),
+    above: (32pt, 0pt, 0pt),
     below: (16pt, 2pt, 0pt),
   ),
 )

@@ -9,7 +9,7 @@
   let appendix-label = if english-writing {
     "Appendix "
   } else if not graduate {
-    "附 录"
+    [附#h(0.7em)录]
   } else {
     "附录"
   }

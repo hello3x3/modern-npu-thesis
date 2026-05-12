@@ -1,6 +1,6 @@
 // 目录页
 #let outline-page(
-  title: "目　录",
+  title: [目#h(0.7em)录],
   indent: (0pt, 24pt, 24pt),
   weight: none,
   fill: (repeat([.], gap: 0.15em),),
@@ -35,7 +35,11 @@
             let inner = {
               if entry.prefix() not in (none, []) {
                 entry.prefix()
-                h(0.3em)
+                if entry.level == 1 and repr(entry.prefix()).contains("章") {
+                  h(-0.1em)
+                } else {
+                  h(0.3em)
+                }
               }
               if entry.element.body == [*Abstract*] { [ABSTRACT] } else { entry.body() }
             }
